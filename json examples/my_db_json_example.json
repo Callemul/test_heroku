@@ -1,0 +1,21 @@
+{
+  "groups": {
+    "-652360112": {
+      "group_name": "Пишу Бота, треба допомога",
+      "users": [
+        {
+          "user_id": "1111333",
+          "user_first_name": "Олександр",
+          "user_last_name": "test user",
+          "user_birth_day": "25/06"
+        },
+        {
+          "user_id": "1111336",
+          "user_first_name": "test user2",
+          "user_last_name": "test user2",
+          "user_birth_day": "28/06"
+        }
+      ]
+    }
+  }
+}

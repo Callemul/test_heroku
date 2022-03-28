@@ -1,0 +1,40 @@
+ppp_message
+from private
+******************************
+{
+  message_id: 33,
+  from: {
+    id: 496323983,
+    is_bot: false,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    language_code: 'ru'
+  },
+  chat: {
+    id: 496323983,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    type: 'private'
+  },
+  date: 1648375573,
+  video: {
+    duration: 66,
+    width: 480,
+    height: 800,
+    file_name: '0_02_05_23087aed50962c6e3254366b188b54e2e6860b215d8f055acf5f0a55022a149c.mp4',
+    mime_type: 'video/mp4',
+    thumb: {
+      file_id: 'AAMCAgADGQEAAyFiQDcUTKHDCICEEnq2R_mxQtK25QACjRgAAkV4AUr1xEt28nbSlgEAB20AAyME',
+      file_unique_id: 'AQADjRgAAkV4AUpy',
+      file_size: 11734,
+      width: 192,
+      height: 320
+    },
+    file_id: 'BAACAgIAAxkBAAMhYkA3FEyhwwiAhBJ6tkf5sULStuUAAo0YAAJFeAFK9cRLdvJ20pYjBA',
+    file_unique_id: 'AgADjRgAAkV4AUo',
+    file_size: 9266251
+  }
+}
+******************************

@@ -1,0 +1,30 @@
+{
+  id: '3811172236129182410',
+  from: {
+    id: 887357684,
+    is_bot: false,
+    first_name: 'nika',
+    username: 'nniikkaacchh',
+    language_code: 'ru'
+  },
+  message: {
+    message_id: 91,
+    from: {
+      id: 5286631590,
+      is_bot: true,
+      first_name: 'Дні народження нагадування',
+      username: 'BirthdayUABot'
+    },
+    chat: {
+      id: -652360112,
+      title: 'Пишу Бота, треба допомога',
+      type: 'group', ---------------------------------------------------------------------------
+      all_members_are_administrators: true
+    },
+    date: 1645972731,
+    text: 'Виберіть місяць свого народження',
+    reply_markup: { inline_keyboard: [Array] }
+  },
+  chat_instance: '-1949621072704296910',
+  data: 'Квітень'
+}

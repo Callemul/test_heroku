@@ -1,0 +1,57 @@
+Link to main folder - https://drive.google.com/drive/folders/1sr_D7r6L1E510HzhpRvNI5QAi_VWi0au?usp=sharing
+
+Google Dashboard API - https://console.cloud.google.com/home/dashboard?project=named-messenger-803 
+Link to Get API Key - https://console.cloud.google.com/apis/credentials?project=churchfixbot 
+Google API Key - AIzaSyBDJwWRj98yXMex2qtZ8FDBD-4skV1bk-0 
+
+1. Upload Photos
+- try catch photo by my telegramAPI
+- try save image to my folder
+- try upload to Gdrive into My test-Folder
+- try load album (is it work correct)
+ - album and one separated or more files...
+ - two albums? is still work correctly?
+
+
+2. Add All route by text
+
+3. Add buttons
+- search lists
+ - conferencies list of UA
+ - distric lists
+ - towns list like Nova Poshta
+
+
+Video (in next time)?
+
+
+
+
+
+
+
+
+
+
+
+
+
+Videos and Photos
+
+Алгоритм такий. 
+➡️Start
+➡️Оберіть Конференцію (список конференцій на адвентіст юа)
+➡️Оберіть місто/смт/село
+
+➡️Чи є декілька громад в вказаному населеному пункті(місті)?
+➡️Номер громади (але поки ввести число 1-15)
+
+➡️Зазначте дату події
+➡️Опишіть коротко подію
+➡️Вкажіть контактний тел
+➡️Чи є свідки? Y/N
+
+
+➡️Виберіть файл
+➡️Завантажте файл
+➡️Наступна подія/ Вихід⏹

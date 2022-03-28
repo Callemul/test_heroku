@@ -1,0 +1,33 @@
+ppp_message
+from private
+******************************
+{
+  message_id: 31,
+  from: {
+    id: 496323983,
+    is_bot: false,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    language_code: 'ru'
+  },
+  chat: {
+    id: 496323983,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    type: 'private'
+  },
+  date: 1648375430,
+  audio: {
+    duration: 275,
+    file_name: '01 Track 1.mp3',
+    mime_type: 'audio/mpeg',
+    title: '01 Wonderful Grace of Jesus',
+    performer: 'Music Studio IUCECB California, USA',
+    file_id: 'CQACAgIAAxkBAAMfYkA2hquFXlc9jQZpDlnhx2ZJn7oAAokYAAJFeAFK9uTySdQxF_sjBA',
+    file_unique_id: 'AgADiRgAAkV4AUo',
+    file_size: 11021129
+  }
+}
+******************************
