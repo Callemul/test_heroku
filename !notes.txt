@@ -1,8 +1,11 @@
 Link to main folder - https://drive.google.com/drive/folders/1sr_D7r6L1E510HzhpRvNI5QAi_VWi0au?usp=sharing
+Link to My Google Folder - https://drive.google.com/drive/folders/1-02QaX8KQmjyUoS0LvYhIZRDEcQmZPM6?usp=sharing 
 
 Google Dashboard API - https://console.cloud.google.com/home/dashboard?project=named-messenger-803 
 Link to Get API Key - https://console.cloud.google.com/apis/credentials?project=churchfixbot 
 Google API Key - AIzaSyBDJwWRj98yXMex2qtZ8FDBD-4skV1bk-0 
+
+Upload to my GAccount Drivew, not to Borys Account - https://www.youtube.com/watch?v=Z2MCxblgPoc
 
 1. Upload Photos
 - try catch photo by my telegramAPI

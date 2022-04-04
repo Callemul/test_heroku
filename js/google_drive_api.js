@@ -1,9 +1,22 @@
 const fs = require('fs');
 const { google } = require('googleapis');
+const { version } = require('os');
+const readline = require('readline');
 
-// If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/drive']
-const TOKEN_PATH = 'token.json';
+
+//Service account key file from google cloud console
+const KEYFILEPATH = '../ServiceAccountCred.json';
+
+// Add drive scope will give us full access to Google drive account
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+
+//init the auth with the needed keyfile and scopes.
+const auth = new google.auth.GoogleAuth({
+    keyFile: KEYFILEPATH,
+    scopes: SCOPES
+});
+
+
 
 module.exports = {
 

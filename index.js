@@ -1,9 +1,24 @@
 const TelegramApi = require('node-telegram-bot-api');
-const db = require('./js/db.js');
-
 const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
-
 const bot = new TelegramApi(token, {polling: true})
+
+const fs = require('fs');
+const { google } = require('googleapis');
+const { version } = require('os');
+const readline = require('readline');
+
+
+//Service account key file from google cloud console
+const KEYFILEPATH = '../ServiceAccountCred.json';
+
+// Add drive scope will give us full access to Google drive account
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
+
+//init the auth with the needed keyfile and scopes.
+const auth = new google.auth.GoogleAuth({
+    keyFile: KEYFILEPATH,
+    scopes: SCOPES
+});
 
 
 
@@ -152,7 +167,9 @@ const start = () => {
 
             //bot got a PHOTO!!!!!
             if(msg.hasOwnProperty('photo')){
-                downloadPhoto(msg)
+                
+                downloadPhotoAndSentToGoogle(msg)
+
             }
 
             //is got audio (MP3)
@@ -292,12 +309,47 @@ const start = () => {
                 });
                 file.on('finish', () =>{
                     console.log('msg.text ="/images/"+newName')
+
+                    createAndUploadFileToGoogleSharedFolder()
                 })
             //
 
         });
 
     };
+
+    async function createAndUploadFileToGoogleSharedFolder(){
+        // init drive service, it will now handle all authorization
+        const driveService = google.drive({version: 'v3', auth});
+    
+        // Media definition of the file.
+        let fileMetaData = {
+            'name':'meysenAV_fix.jpg',
+            'parents':['1-02QaX8KQmjyUoS0LvYhIZRDEcQmZPM6']
+        }
+    
+        let media = {
+            mimeTipe: 'image/jpg',
+            body: fs.createReadStream('../images/avatar/meysenAV_fix.jpg')
+        }
+    
+        // create the request 
+        let response = await driveService.files.create({
+            resource : fileMetaData,
+            media: media,
+            fields: 'id'
+        })
+    
+        //handle the response
+    
+        switch(response.status){
+            case 200:
+                console.log('File Created id:', response.data.id )
+                break;
+            default:
+                console.log ('??? Error ??? ', responce.status)
+        }
+    }
 
 
     //answers from clicked buttons
