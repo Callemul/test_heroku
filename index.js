@@ -3,32 +3,10 @@ const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
 const bot = new TelegramApi(token, {polling: true})
 
 const fs = require('fs');
-const { google } = require('googleapis');
 const { version } = require('os');
 const readline = require('readline');
 
 
-//Service account key file from google cloud console
-const KEYFILEPATH = '../ServiceAccountCred.json';
-
-// Add drive scope will give us full access to Google drive account
-const SCOPES = ['https://www.googleapis.com/auth/drive'];
-
-//init the auth with the needed keyfile and scopes.
-const auth = new google.auth.GoogleAuth({
-    keyFile: KEYFILEPATH,
-    scopes: SCOPES
-});
-
-
-
-const begin_button = {
-    reply_markup: JSON.stringify({
-        inline_keyboard:[
-            [{text: 'Почати заповнювати анкету', callback_data: '0_begin'}],
-        ]
-    })
-} 
 
 
 const months = ['Січень', 'Лютий', 'Березень', 
@@ -103,6 +81,23 @@ const birth_options_days = {
 
 const start = () => {
 
+    const begin_button_0 = setCallBackButtonConst('Почати заповнювати анкету', '0_begin');
+    const begin_button_1 = setCallBackButtonConst('Тестова конференція', '1_1_begin');
+    const begin_button_2 = setCallBackButtonConst('Підтвердити введення міста', '2_begin');
+    const begin_button_3 = setCallBackButtonConst('Підтвердити введення дати події', '3_begin');
+    const begin_button_4 = setCallBackButtonConst('Підтвердити введення опису події', '4_begin');
+    const begin_button_5 = setCallBackButtonConst('Підтвердити введення телефону', '5_begin');
+    const begin_button_6 = {
+        reply_markup: JSON.stringify({
+            inline_keyboard:[
+                [{text: 'Ні', callback_data: '6_begin_no'},
+                {text: 'Так', callback_data: '6_begin_yes'},
+                ],] })
+            } 
+                
+                //setCallBackButtonConst('Ні','Так', '6_begin');
+    const begin_button_7 = setCallBackButtonConst('Підтвердити завершення передач фото/відео', '7_begin');
+
     //commands
     bot.setMyCommands([
         {command: '/start', description: 'Запустити бота'},
@@ -162,13 +157,13 @@ const start = () => {
 
                 Перед завантаженням фото/відео, заповніть, будь ласка, анкету. 
                 
-                Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha`, begin_button)
+                Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha`, begin_button_0)
             }
 
             //bot got a PHOTO!!!!!
             if(msg.hasOwnProperty('photo')){
                 
-                downloadPhotoAndSentToGoogle(msg)
+                downloadPhoto(msg)
 
             }
 
@@ -283,6 +278,23 @@ const start = () => {
     }
     })
 
+
+    /**
+     * Telegram API Ivanov Tool
+     * @param {*} text 
+     * @param {*} callback_data 
+     * @returns 
+     */
+    function setCallBackButtonConst(button_label_text, callback_data){
+        return {
+            reply_markup: JSON.stringify({
+                inline_keyboard:[
+                    [{text: button_label_text, callback_data: callback_data}],
+                ]
+            })
+        } 
+    }
+
     function downloadPhoto(msg){
         //https://stackoverflow.com/questions/35991698/telegram-bot-receive-photo-url
         console.log('function downloadPhoto START')
@@ -318,38 +330,7 @@ const start = () => {
 
     };
 
-    async function createAndUploadFileToGoogleSharedFolder(){
-        // init drive service, it will now handle all authorization
-        const driveService = google.drive({version: 'v3', auth});
     
-        // Media definition of the file.
-        let fileMetaData = {
-            'name':'meysenAV_fix.jpg',
-            'parents':['1-02QaX8KQmjyUoS0LvYhIZRDEcQmZPM6']
-        }
-    
-        let media = {
-            mimeTipe: 'image/jpg',
-            body: fs.createReadStream('../images/avatar/meysenAV_fix.jpg')
-        }
-    
-        // create the request 
-        let response = await driveService.files.create({
-            resource : fileMetaData,
-            media: media,
-            fields: 'id'
-        })
-    
-        //handle the response
-    
-        switch(response.status){
-            case 200:
-                console.log('File Created id:', response.data.id )
-                break;
-            default:
-                console.log ('??? Error ??? ', responce.status)
-        }
-    }
 
 
     //answers from clicked buttons
@@ -362,7 +343,62 @@ const start = () => {
         if(data === '0_begin'){
             console.log('0_begin: роспочато анкетування')
 
-            bot.sendMessage(chatId, "Я теб//", begin_button)
+            bot.sendMessage(chatId, "➡️1. Оберіть Конференцію:", begin_button_1)
+
+
+        }else if(data === '1_1_begin'){
+            console.log('1 1 _begin: роспочато анкетування')
+
+            bot.sendMessage(chatId, "➡️2. Оберіть місто", begin_button_2)
+
+
+        }else if(data === '2_begin'){
+            console.log('2_begin:')
+
+            bot.sendMessage(chatId, `➡️3. Зазначте дату події
+            
+            Вводьте, будь ласка, в такому форматі:
+
+            Наприклад, 27.02.2022
+            `, begin_button_3)
+
+
+        }else if(data === '3_begin'){
+            console.log('3_begin:')
+
+            //тут може бути багато повідомлень. Масив повідомлень
+            bot.sendMessage(chatId, `➡️4. Опишіть коротко подію`, begin_button_4)
+
+
+        }else if(data === '4_begin'){
+            console.log('4_begin:')
+
+            //тут може бути багато повідомлень. Масив повідомлень
+            bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`, begin_button_5)
+
+
+        }else if(data === '5_begin'){
+            console.log('5_begin:')
+
+            //тут може бути багато повідомлень. Масив повідомлень
+            bot.sendMessage(chatId, `➡️6. Чи є свідки?`, begin_button_6)
+
+
+        }else if(data === '6_begin_no' || data === '6_begin_yes' ){
+            console.log('6_begin:')
+
+            //тут може бути багато повідомлень. Масив повідомлень
+            bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото, відео
+            
+            Дочекайтесь, будь ласка, поки всі фото, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
+            `, begin_button_7)
+
+
+        }else if(data === '7_begin'){
+            console.log('7_begin:')
+
+            //тут може бути багато повідомлень. Масив повідомлень
+            bot.sendMessage(chatId, `➡️8. Дані передано, дякуємо`)
 
 
         }else if(months.includes(data)){

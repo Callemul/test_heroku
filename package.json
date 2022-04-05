@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "base64-img": "^1.0.4",
-    "googleapis": "^39.2.0",
     "node-telegram-bot-api": "^0.56.0",
     "nodemon": "^2.0.15"
   }
