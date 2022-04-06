@@ -1,0 +1,19 @@
+node:internal\modules\cjs\loader:1101:14
+error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: connect ETIMEDOUT 149.154.167.220:443"}
+Unhandled rejection RequestError: Error: connect ETIMEDOUT 149.154.167.220:443
+    at new RequestError (D:\All without ARM\TelegramBots\ChurhFixBot\node_modules\request-promise-core\lib\errors.js:14:15)
+    at Request.plumbing.callback (D:\All without ARM\TelegramBots\ChurhFixBot\node_modules\request-promise-core\lib\plumbing.js:87:29)
+    at Request.RP$callback [as _callback] (D:\All without 
+ARM\TelegramBots\ChurhFixBot\node_modules\request-promise-core\lib\plumbing.js:46:31)  
+    at self.callback (D:\All 
+without ARM\TelegramBots\ChurhFixBot\node_modules\request\request.js:185:22)
+    at Request.emit (node:events:390:28)
+    at Request.onRequestError (D:\All without ARM\TelegramBots\ChurhFixBot\node_modules\request\request.js:877:8)   
+    at ClientRequest.emit (node:events:390:28)
+    at TLSSocket.socketErrorListener (node:_http_client:447:9)     
+    at TLSSocket.emit (node:events:390:28)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)      
+    at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+error: [polling_error] {"code":"EFATAL","message":"EFATAL: Error: connect ETIMEDOUT 149.154.167.220:443"}
