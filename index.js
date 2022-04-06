@@ -9,6 +9,7 @@ const readline = require('readline');
 const commands_module = require('./js/commands')
 const photo_module = require('./js/donwloader/photo')
 const onGroup_module = require('./js/mess/onFromGroupMess')
+const onPrivate_module = require('./js/mess/onPrivateMess')
 
 
 
@@ -84,11 +85,52 @@ const birth_options_days = {
 
 const start = () => {
 
+    const callback_query_button_consts = {
+        "0_begin": "0_begin",
+        "1_1_begin": "1_1_begin",
+        "2_begin": "2_begin",
+        "3_begin": "3_begin",
+        "4_begin": "4_begin",
+        "5_begin": "5_begin",
+        "6_begin_no": "6_begin_no",
+        "6_begin_yes": "6_begin_yes",
+        "7_begin": "7_begin",
+    };
+
+
+    var current_step = '';
+    var CURRENT_STEP_ENUM = {
+        "1. conference": "1. conference",
+        "2. town": "2. town",
+        "3. date": "3. date",
+        "4. description": "4. description",
+        "5. phone": "5. phone",
+        "6. bystander": "6. bystander",
+        "7. load files": "7. load files",
+        "chatId": "",
+    };
+    
+    var quiz_data_per_user = {
+        "1. conference": "",
+        "2. town": "",
+        "3. date": "",
+        "4. description": "",
+        "5. phone": "",
+        "6. bystander": "",
+        "7. load files": "",
+        "chatId": "",
+    };
+
+    var last_inputed_text_from_user = {
+        "text": "",
+        "msg_object" : ""
+    };
+
     var last_callback_pressed_button = '';
 
 
     const begin_button_0 = setCallBackButtonConst('Почати заповнювати анкету', '0_begin');
-    const begin_button_1 = setCallBackButtonConst('Тестова конференція', '1_1_begin');
+    const begin_button_1 = setCallBackButtonConst('Підтвердити введення конференції', '1_1_begin');
     const begin_button_2 = setCallBackButtonConst('Підтвердити введення міста', '2_begin');
     const begin_button_3 = setCallBackButtonConst('Підтвердити введення дати події', '3_begin');
     const begin_button_4 = setCallBackButtonConst('Підтвердити введення опису події', '4_begin');
@@ -137,60 +179,20 @@ const start = () => {
         console.log('ppp_message')
 
         if(msg.chat.type === 'private') {
-            console.log('from private')
-            console.log('******************************')
-            console.log(msg)
-            console.log('******************************')
-
-            if (text === '/start') {
-                
-                console.log('date mess: '+ new Date(msg.date).toISOString())
-                
-//                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
-
-                bot.send
-
-                return bot.sendMessage(chatId,
-                    `Привіт!
-                
-                Я український бот для добавляння в базу фото молитовних будинків АСД, які були пошкоджені підчас війни
-
-                Перед завантаженням фото/відео, заповніть, будь ласка, анкету. 
-                
-                Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha`, begin_button_0)
-            }
-
-            //bot got a PHOTO!!!!!
-            if(msg.hasOwnProperty('photo')){
-                
-                //downloadPhoto(msg)
-                return photo_module.downloadPhoto(msg);
-
-            }
-
-            //is got audio (MP3)
-            if(msg.hasOwnProperty('audio')){
-                
-            }
-
-            //is got video (MP4)
-            if(msg.hasOwnProperty('video')){
-
-            }
-
             
-
-            //other
-            return bot.sendMessage(chatId, "Я тебе не зрозумів. Запусти команду якусь, наприклад /start (для цього пропиши той текст в чаті мені, або натисни на неї, синій фон і слідуй інструкціям)")
-
-
+            // PRIVATE mess to bot
+            return onPrivate_module.onPrivateMess(
+                bot, msg, text, chatId, 
+                last_inputed_text_from_user,
+                last_callback_pressed_button,
+                begin_button_0)
 
         }else {
-
+            // GROUP mess in group where is bot presents
             return onGroup_module.onFromGroupMessages(bot, msg, text, chatId)    
 
             
-    }
+        }
     })
 
 
@@ -211,6 +213,8 @@ const start = () => {
     }
 
 
+
+
     //answers from clicked buttons
     bot.on('callback_query', msg => {
 
@@ -220,24 +224,28 @@ const start = () => {
 
         switch(data){
 
-            case '0_begin':
+            case callback_query_button_consts['0_begin']:
                 console.log('0_begin: роспочато анкетування')
                 
                 last_callback_pressed_button = data;
 
-                bot.sendMessage(chatId, "➡️1. Оберіть Конференцію:", begin_button_1);
+                bot.sendMessage(chatId, "➡️1. Введіть конференцію (наприклад, Подільська):");
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;
             
-            case '1_1_begin':
+            case callback_query_button_consts['1_1_begin']:
                 console.log('1 1 _begin: роспочато анкетування')
 
                 last_callback_pressed_button = data;
 
                 
                 bot.sendMessage(chatId, "➡️2. Оберіть місто", begin_button_2)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;
             
-            case '2_begin':
+            case callback_query_button_consts['2_begin']:
                 console.log('2_begin:')
 
                 last_callback_pressed_button = data;
@@ -249,9 +257,11 @@ const start = () => {
 
 Наприклад, 27.02.2022
                                 `, begin_button_3)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;
         
-            case '3_begin':
+            case callback_query_button_consts['3_begin']:
                 console.log('3_begin:')
 
                 last_callback_pressed_button = data;
@@ -259,9 +269,11 @@ const start = () => {
                 
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️4. Опишіть коротко подію`, begin_button_4)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;
 
-            case '4_begin':
+            case callback_query_button_consts['4_begin']:
                 console.log('4_begin:')
 
                 last_callback_pressed_button = data;
@@ -269,10 +281,12 @@ const start = () => {
                 
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`, begin_button_5)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;    
 
 
-            case '5_begin':
+            case callback_query_button_consts['5_begin']:
                 console.log('5_begin:')
 
                 last_callback_pressed_button = data;
@@ -280,12 +294,14 @@ const start = () => {
                 
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️6. Чи є свідки?`, begin_button_6)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;  
 
 
-            case '6_begin_no':
-            case '6_begin_yes':
-                console.log('6_begin:')
+            case callback_query_button_consts['6_begin_no']:
+            case callback_query_button_consts['6_begin_yes']:
+                console.log(data)
 
                 last_callback_pressed_button = data; //6_begin_no OR 6_begin_yes
 
@@ -295,9 +311,11 @@ const start = () => {
                 
                 Дочекайтесь, будь ласка, поки всі фото, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
                 `, begin_button_7)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;  
 
-            case '7_begin':
+            case callback_query_button_consts['7_begin']:
                 console.log('7_begin:')
 
                 last_callback_pressed_button = data;
@@ -305,6 +323,8 @@ const start = () => {
                 
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️8. Дані передано, дякуємо`)
+                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
                 break;  
 
             default:
