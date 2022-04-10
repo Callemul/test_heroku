@@ -1,22 +1,37 @@
 const TelegramApi = require('node-telegram-bot-api');
 const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
+
+//was @polling_error in local PC https://github.com/yagop/node-telegram-bot-api/issues/562#issuecomment-382313307
+
 const bot = new TelegramApi(token, {polling: true})
+// const Agent = require('socks5-https-client/lib/Agent')
+
+// const bot = new TelegramApi(token, {
+// 	polling: true,
+// 	request: {
+// 		agentClass: Agent,
+// 		agentOptions: {
+// 			socksHost: process.env.PROXY_SOCKS5_HOST,
+// 			socksPort: parseInt(process.env.PROXY_SOCKS5_PORT),
+// 			// If authorization is needed:
+// 			// socksUsername: process.env.PROXY_SOCKS5_USERNAME,
+// 			// socksPassword: process.env.PROXY_SOCKS5_PASSWORD
+// 		}
+// 	}
+// })
 
 const fs = require('fs');
 const { version } = require('os');
 const readline = require('readline');
 
 const commands_module = require('./js/commands')
+const enums_module = require('./js/js_tool/Enums')
 const photo_module = require('./js/donwloader/photo')
 const onGroup_module = require('./js/mess/onFromGroupMess')
 const onPrivate_module = require('./js/mess/onPrivateMess')
+const scenario_module = require('./js/scenario/quiz')
 
 
-
-const months = ['Січень', 'Лютий', 'Березень', 
-                'Квітень', 'Травень', 'Червень',
-                'Липень', 'Серпень', 'Вересень',
-                'Жовтень', 'Листопад', 'Грудень']
 
 const birth_options_months = {
     reply_markup: JSON.stringify({
@@ -99,18 +114,9 @@ const start = () => {
 
 
     var current_step = '';
-    var CURRENT_STEP_ENUM = {
-        "1. conference": "1. conference",
-        "2. town": "2. town",
-        "3. date": "3. date",
-        "4. description": "4. description",
-        "5. phone": "5. phone",
-        "6. bystander": "6. bystander",
-        "7. load files": "7. load files",
-        "chatId": "",
-    };
     
-    var quiz_data_per_user = {
+
+    var data_user_quiz = {
         "1. conference": "",
         "2. town": "",
         "3. date": "",
@@ -129,20 +135,6 @@ const start = () => {
     var last_callback_pressed_button = '';
 
 
-    const begin_button_0 = setCallBackButtonConst('Почати заповнювати анкету', '0_begin');
-    const begin_button_1 = setCallBackButtonConst('Підтвердити введення конференції', '1_1_begin');
-    const begin_button_2 = setCallBackButtonConst('Підтвердити введення міста', '2_begin');
-    const begin_button_3 = setCallBackButtonConst('Підтвердити введення дати події', '3_begin');
-    const begin_button_4 = setCallBackButtonConst('Підтвердити введення опису події', '4_begin');
-    const begin_button_5 = setCallBackButtonConst('Підтвердити введення телефону', '5_begin');
-    const begin_button_6 = {
-        reply_markup: JSON.stringify({
-            inline_keyboard:[
-                [{text: 'Ні', callback_data: '6_begin_no'},
-                {text: 'Так', callback_data: '6_begin_yes'},
-                ],] })
-            } 
-    const begin_button_7 = setCallBackButtonConst('Підтвердити завершення передач фото/відео', '7_begin');
 
     //commands
     commands_module.setCommands(bot);        
@@ -185,7 +177,7 @@ const start = () => {
                 bot, msg, text, chatId, 
                 last_inputed_text_from_user,
                 last_callback_pressed_button,
-                begin_button_0)
+                data_user_quiz)
 
         }else {
             // GROUP mess in group where is bot presents
@@ -195,6 +187,7 @@ const start = () => {
         }
     })
 
+    bot.on("polling_error", console.log);
 
     /**
      * Telegram API Ivanov Tool
@@ -202,15 +195,7 @@ const start = () => {
      * @param {*} callback_data 
      * @returns 
      */
-    function setCallBackButtonConst(button_label_text, callback_data){
-        return {
-            reply_markup: JSON.stringify({
-                inline_keyboard:[
-                    [{text: button_label_text, callback_data: callback_data}],
-                ]
-            })
-        } 
-    }
+   
 
 
 
@@ -219,133 +204,21 @@ const start = () => {
     bot.on('callback_query', msg => {
 
         const data = msg.data;
-        const chatId = msg.message.chat.id;
-        console.log(msg)
-
-        switch(data){
-
-            case callback_query_button_consts['0_begin']:
-                console.log('0_begin: роспочато анкетування')
-                
-                last_callback_pressed_button = data;
-
-                bot.sendMessage(chatId, "➡️1. Введіть конференцію (наприклад, Подільська):");
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;
-            
-            case callback_query_button_consts['1_1_begin']:
-                console.log('1 1 _begin: роспочато анкетування')
-
-                last_callback_pressed_button = data;
-
-                
-                bot.sendMessage(chatId, "➡️2. Оберіть місто", begin_button_2)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;
-            
-            case callback_query_button_consts['2_begin']:
-                console.log('2_begin:')
-
-                last_callback_pressed_button = data;
-
-                
-                bot.sendMessage(chatId, `➡️3. Зазначте дату події
-                
-Вводьте, будь ласка, в такому форматі:
-
-Наприклад, 27.02.2022
-                                `, begin_button_3)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;
         
-            case callback_query_button_consts['3_begin']:
-                console.log('3_begin:')
+        console.log(msg)
+        console.log('scenario_module.main_switch')
+        
+        const chatId = msg.message.chat.id;
 
-                last_callback_pressed_button = data;
-
-                
-                //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️4. Опишіть коротко подію`, begin_button_4)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;
-
-            case callback_query_button_consts['4_begin']:
-                console.log('4_begin:')
-
-                last_callback_pressed_button = data;
-
-                
-                //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`, begin_button_5)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;    
-
-
-            case callback_query_button_consts['5_begin']:
-                console.log('5_begin:')
-
-                last_callback_pressed_button = data;
-
-                
-                //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️6. Чи є свідки?`, begin_button_6)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;  
-
-
-            case callback_query_button_consts['6_begin_no']:
-            case callback_query_button_consts['6_begin_yes']:
-                console.log(data)
-
-                last_callback_pressed_button = data; //6_begin_no OR 6_begin_yes
-
-                
-                //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото, відео
-                
-                Дочекайтесь, будь ласка, поки всі фото, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
-                `, begin_button_7)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;  
-
-            case callback_query_button_consts['7_begin']:
-                console.log('7_begin:')
-
-                last_callback_pressed_button = data;
-
-                
-                //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️8. Дані передано, дякуємо`)
-                console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
-                break;  
-
-            default:
-
-                if(months.includes(data)){
-                    bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-            bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-                    bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-            bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-                    bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-            bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-                    bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-            bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-                    bot.sendMessage(chatId, `Виберіть день`, birth_options_days); 
-                }else{
-                    console.log('нажата невідома кнопка', data)
-                }
-
-            }
-            
-
+        scenario_module.main_switch(
+            bot, 
+            msg,
+            data, 
+            chatId,
+            last_callback_pressed_button,
+            data_user_quiz,
+            null
+        );
 
         
     })

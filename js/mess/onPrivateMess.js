@@ -1,4 +1,5 @@
 const store_answers_module = require('../callback_tool/callback_save_answers')
+const scenario_module = require('../scenario/quiz')
 
 module.exports = {
 
@@ -6,7 +7,8 @@ module.exports = {
         bot, msg, text, chatId, 
         last_inputed_text_from_user,
         last_callback_pressed_button,
-        begin_button_0){
+        data_user_quiz
+        ){
             
             console.log('from private')
             console.log('******************************')
@@ -18,17 +20,21 @@ module.exports = {
                 console.log('date mess: '+ new Date(msg.date).toISOString())
                 
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
+                console.log('data_user_quiz: ', data_user_quiz)
 
                 // bot.send
+                const chatId = msg.chat.id;
 
-                return bot.sendMessage(chatId,
-                    `Привіт!
-                
-                Я український бот для добавляння в базу фото молитовних будинків АСД, які були пошкоджені підчас війни
+                return scenario_module.main_switch(
+                    bot,
+                    msg,
+                    'hello',
+                    chatId,
+                    last_callback_pressed_button,
+                    data_user_quiz
+                    );
 
-                Перед завантаженням фото/відео, заповніть, будь ласка, анкету. 
                 
-                Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha`, begin_button_0)
             }
 
             //bot got a PHOTO!!!!!
@@ -58,11 +64,20 @@ module.exports = {
             //     return
             // }
 
-            
+            console.log('last_callback_pressed_buttonWWW: ', last_callback_pressed_button)
             if(last_callback_pressed_button != ''){
                 //save last message (when quiz_mode turned on)
                 last_inputed_text_from_user.text = text;
                 last_inputed_text_from_user.msg = msg;
+
+                last_callback_pressed_button = '';
+
+                scenario_module.main_switch(
+                    bot,
+                    msg,
+                    last_callback_pressed_button+'_answered', //1_1_begin_answered',
+                    text);
+
                 return;
             }
 
