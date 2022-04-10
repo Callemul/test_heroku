@@ -1,4 +1,5 @@
 const enums_module = require('../js_tool/Enums')
+const global_vars = require('../js_tool/Global_vars')
 
 function setCallBackButtonConst(button_label_text, callback_data){
     return {
@@ -57,11 +58,7 @@ module.exports = {
         bot,
         msg,
         callback_data,
-        chatId,
-        last_callback_pressed_button,
-        data_user_quiz,
-        inputed_text_from_user = null,
-        
+        chatId        
         ){
             console.log('main_switch begin')
             console.log('callback_data ', callback_data)
@@ -86,13 +83,13 @@ module.exports = {
             case '0_begin':
                 console.log('0_begin: роспочато анкетування')
                 
-                last_callback_pressed_button = '0_begin';
+                global_vars.last_callback_pressed_button = '0_begin';
 
                 //show 8 buttons conferences
                 bot.sendMessage(chatId, "➡️1. Введіть конференцію (наприклад, Подільська):", begin_button_1);
                 
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 //next: wait pressed text (conferencename)
                 break;
             
@@ -108,22 +105,22 @@ module.exports = {
                 console.log('1_1_begin: clicked 1/8 buttons callback, clicked')
 
                 //save answer
-                data_user_quiz['1. conference'] = callback_data;
-                console.log('data_user_quiz: ', data_user_quiz)
+                global_vars.data_user_quiz['1. conference'] = callback_data;
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
 
                 //send new button
-                last_callback_pressed_button = '1_1_begin';
+                global_vars.last_callback_pressed_button = '1_1_begin';
                 bot.sendMessage(chatId, "➡️2. Введіть місто")
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
 
 
                 break;
             case '1_1_begin_answered':
                 console.log('1_1_begin_answered: роспочато анкетування')
                 
-                data_user_quiz['2. town'] = inputed_text_from_user;
-                console.log('data_user_quiz: ', data_user_quiz)
+                global_vars.data_user_quiz['2. town'] = global_vars.last_inputed_text_from_user
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
 
                 //---------------------------------------------
                 /*фіктивно створюю ніби нажата кнопка, типу "підтвердити введення тексту міста/телефону"
@@ -131,7 +128,7 @@ module.exports = {
                     то тоді лишнього коду вправляючого сценарій подій
                     (сценарій тоді буде в двох місцях, а це не правильно)
                  */
-                last_callback_pressed_button = '3_begin';
+                global_vars.last_callback_pressed_button = '3_begin';
 
                 console.log('3_begin:')
 
@@ -140,67 +137,67 @@ module.exports = {
 Вводьте, будь ласка, в такому форматі:
 
 Наприклад, 27.02.2022
-                                `, begin_button_3)
+                                `)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;
         
 
 
             case '3_begin_answered':
                 console.log('3_begin_answered:')
-                data_user_quiz['3. date'] = inputed_text_from_user;
-                console.log('data_user_quiz: ', data_user_quiz)
+                global_vars.data_user_quiz['3. date'] = global_vars.last_inputed_text_from_user
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
               
                 console.log('4_begin:');
-                last_callback_pressed_button = '4_begin';
+                global_vars.last_callback_pressed_button = '4_begin';
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️4. Опишіть коротко подію. Одним повідомленням, без виправлень. Або напишіть нове (бо зараховано буде лиш останнє повідомлення)`, begin_button_4)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;
 
             case '4_begin_answered':
                 console.log('4_begin_answered:')
-                data_user_quiz['4. description'] = inputed_text_from_user;
-                console.log('data_user_quiz: ', data_user_quiz)
+                global_vars.data_user_quiz['4. description'] = global_vars.last_inputed_text_from_user
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
               
                 console.log('5_begin:');
-                last_callback_pressed_button = '5_begin';
+                global_vars.last_callback_pressed_button = '5_begin';
                 
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`, begin_button_5)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;    
 
 
             case '5_begin_answered':
                 console.log('5_begin_answered:')
-                data_user_quiz['5. phone'] = inputed_text_from_user;
-                console.log('data_user_quiz: ', data_user_quiz)
+                global_vars.data_user_quiz['5. phone'] = global_vars.last_inputed_text_from_user
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
                 console.log('6_begin:');
-                last_callback_pressed_button = '6_begin';
+                global_vars.last_callback_pressed_button = '6_begin';
                 
                 
                 //тут може бути багато повідомлень. Масив повідомлень
                 bot.sendMessage(chatId, `➡️6. Чи є свідки?`, begin_button_6)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;  
 
 
             case '6_begin_no':
             case '6_begin_yes':
                 console.log('6_begin_yes/no:')
-                data_user_quiz['6. bystander'] = callback_data;
-                console.log('data_user_quiz: ', data_user_quiz)
+                global_vars.data_user_quiz['6. bystander'] = callback_data;
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
                 console.log('7_begin:');
-                last_callback_pressed_button = '7_begin';
+                global_vars.last_callback_pressed_button = '7_begin';
                 
                 
                 bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото, відео
@@ -209,15 +206,15 @@ module.exports = {
                 
                 Якщо ви завершили передачу фото, введіть мені слово: finish`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
-                console.log('last_callback_pressed_button: ', last_callback_pressed_button)
+                console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;  
 
             case '7_begin_answered':
                 console.log('7_begin_answered:')
                 if(inputed_text_from_user == 'finish'){
-                    data_user_quiz['7. load files'] = 'yes';
-                    console.log('data_user_quiz: ', data_user_quiz)
-                    last_callback_pressed_button = '';
+                    global_vars.data_user_quiz['7. load files'] = 'yes';
+                    console.log('data_user_quiz: ', global_vars.data_user_quiz)
+                    global_vars.last_callback_pressed_button = '';
                     
                     /**
                      * ТУТ МОЖНА ЗБЕРІГАТИ ВСІ ДАНІ,
@@ -229,8 +226,8 @@ module.exports = {
 
                     
                 }else{
-                    data_user_quiz['7. load files'] = 'no_user_not_type_finish_to_us';
-                    console.log('data_user_quiz: ', data_user_quiz)
+                    global_vars.data_user_quiz['7. load files'] = 'no_user_not_type_finish_to_us';
+                    console.log('data_user_quiz: ', global_vars.data_user_quiz)
                     bot.sendMessage(chatId, `Я вас не зрозумів`)
 
                 }

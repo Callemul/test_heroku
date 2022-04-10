@@ -7,10 +7,7 @@ module.exports = {
         bot, 
         msg, 
         text, 
-        chatId, 
-        last_inputed_text_from_user,
-        last_callback_pressed_button,
-        data_user_quiz
+        chatId
         ){
             
             console.log('from private')
@@ -19,11 +16,20 @@ module.exports = {
             console.log('******************************')
 
             if (text === '/start') {
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
+                console.log('/start')
                 
                 console.log('date mess: '+ new Date(msg.date).toISOString())
                 
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
-                console.log('data_user_quiz: ', data_user_quiz)
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
 
                 // bot.send
                 const chatId = msg.chat.id;
@@ -32,9 +38,7 @@ module.exports = {
                     bot,
                     msg,
                     'hello',
-                    chatId,
-                    last_callback_pressed_button,
-                    data_user_quiz
+                    chatId
                     );
 
                 
@@ -67,20 +71,21 @@ module.exports = {
             //     return
             // }
 
-            console.log('last_callback_pressed_buttonWWW: ', last_callback_pressed_button)
-            if(last_callback_pressed_button != ''){
+            console.log('last_callback_pressed_buttonWWW: ', global_vars.last_callback_pressed_button)
+            if(global_vars.last_callback_pressed_button != ''){
                 //save last message (when quiz_mode turned on)
-                last_inputed_text_from_user.text = text;
-                last_inputed_text_from_user.msg = msg;
+                global_vars.last_inputed_text_from_user = text;
 
+                const chatId = msg.chat.id;
 
                 scenario_module.main_switch(
                     bot,
                     msg,
-                    last_callback_pressed_button+'_answered', //1_1_begin_answered',
-                    text);
+                    global_vars.last_callback_pressed_button+'_answered',
+                    chatId
+                    );
 
-                last_callback_pressed_button = '';
+                global_vars.last_callback_pressed_button = '';
 
                 return;
             }

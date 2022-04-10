@@ -4,21 +4,8 @@ const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
 //was @polling_error in local PC https://github.com/yagop/node-telegram-bot-api/issues/562#issuecomment-382313307
 
 const bot = new TelegramApi(token, {polling: true})
-// const Agent = require('socks5-https-client/lib/Agent')
 
-// const bot = new TelegramApi(token, {
-// 	polling: true,
-// 	request: {
-// 		agentClass: Agent,
-// 		agentOptions: {
-// 			socksHost: process.env.PROXY_SOCKS5_HOST,
-// 			socksPort: parseInt(process.env.PROXY_SOCKS5_PORT),
-// 			// If authorization is needed:
-// 			// socksUsername: process.env.PROXY_SOCKS5_USERNAME,
-// 			// socksPassword: process.env.PROXY_SOCKS5_PASSWORD
-// 		}
-// 	}
-// })
+const global_vars = require('./js/js_tool/Global_vars')
 
 const fs = require('fs');
 const { version } = require('os');
@@ -98,9 +85,6 @@ const birth_options_days = {
     })
 } 
 
-exports.last_callback_pressed_button = '';
-
-
 const start = () => {
 
     const callback_query_button_consts = {
@@ -116,24 +100,8 @@ const start = () => {
     };
 
 
-    var current_step = '';
     
 
-    var data_user_quiz = {
-        "1. conference": "",
-        "2. town": "",
-        "3. date": "",
-        "4. description": "",
-        "5. phone": "",
-        "6. bystander": "",
-        "7. load files": "",
-        "chatId": "",
-    };
-
-    var last_inputed_text_from_user = {
-        "text": "",
-        "msg_object" : ""
-    };
 
 
 
@@ -174,17 +142,14 @@ const start = () => {
 
         if(msg.chat.type === 'private') {
             
-            console.log('last_callback_pressed_button_INDEXPRIVATE: ', last_callback_pressed_button)
+            console.log('last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
 
             // PRIVATE mess to bot
             return onPrivate_module.onPrivateMess(
                 bot,
                 msg, 
                 text, 
-                chatId, 
-                last_inputed_text_from_user,
-                last_callback_pressed_button,
-                data_user_quiz
+                chatId
                 )
 
         }else {
@@ -193,10 +158,7 @@ const start = () => {
                 bot,
                 msg, 
                 text, 
-                chatId, 
-                last_inputed_text_from_user,
-                last_callback_pressed_button,
-                data_user_quiz
+                chatId
                 )    
 
             
@@ -211,10 +173,6 @@ const start = () => {
      * @param {*} callback_data 
      * @returns 
      */
-   
-
-
-
 
     //answers from clicked buttons
     bot.on('callback_query', msg => {
@@ -230,10 +188,7 @@ const start = () => {
             bot, 
             msg,
             callback_data, 
-            chatId,
-            last_callback_pressed_button,
-            data_user_quiz,
-            null
+            chatId
         );
 
         
