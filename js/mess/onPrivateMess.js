@@ -70,13 +70,14 @@ module.exports = {
                 last_inputed_text_from_user.text = text;
                 last_inputed_text_from_user.msg = msg;
 
-                last_callback_pressed_button = '';
 
                 scenario_module.main_switch(
                     bot,
                     msg,
                     last_callback_pressed_button+'_answered', //1_1_begin_answered',
                     text);
+
+                last_callback_pressed_button = '';
 
                 return;
             }
