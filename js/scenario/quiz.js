@@ -1,5 +1,4 @@
 const enums_module = require('../js_tool/Enums')
-const global_vars = require('../js_tool/Global_vars')
 
 function setCallBackButtonConst(button_label_text, callback_data){
     return {

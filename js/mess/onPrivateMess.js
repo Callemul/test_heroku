@@ -1,5 +1,4 @@
 const scenario_module = require('../scenario/quiz')
-const global_vars = require('../js_tool/Global_vars')
 
 module.exports = {
 

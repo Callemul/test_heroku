@@ -6,6 +6,7 @@ const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
 const bot = new TelegramApi(token, {polling: true})
 
 const global_vars = require('./js/js_tool/Global_vars')
+// const global_vars = require('./js/js_tool/Global_vars')
 
 const fs = require('fs');
 const { version } = require('os');
@@ -85,7 +86,7 @@ const birth_options_days = {
     })
 } 
 
-const start = () => {
+
 
     const callback_query_button_consts = {
         "0_begin": "0_begin",
@@ -193,7 +194,6 @@ const start = () => {
 
         
     })
-}
 
 
-start() 
+
