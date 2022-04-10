@@ -4,7 +4,10 @@ const scenario_module = require('../scenario/quiz')
 module.exports = {
 
     onPrivateMess: function(
-        bot, msg, text, chatId, 
+        bot, 
+        msg, 
+        text, 
+        chatId, 
         last_inputed_text_from_user,
         last_callback_pressed_button,
         data_user_quiz

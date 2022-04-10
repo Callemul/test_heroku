@@ -86,7 +86,7 @@ module.exports = {
             case '0_begin':
                 console.log('0_begin: роспочато анкетування')
                 
-                // last_callback_pressed_button = data;
+                last_callback_pressed_button = '0_begin';
 
                 //show 8 buttons conferences
                 bot.sendMessage(chatId, "➡️1. Введіть конференцію (наприклад, Подільська):", begin_button_1);

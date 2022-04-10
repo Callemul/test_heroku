@@ -98,6 +98,9 @@ const birth_options_days = {
     })
 } 
 
+global.last_callback_pressed_button = '';
+
+
 const start = () => {
 
     const callback_query_button_consts = {
@@ -132,7 +135,6 @@ const start = () => {
         "msg_object" : ""
     };
 
-    var last_callback_pressed_button = '';
 
 
 
@@ -172,16 +174,30 @@ const start = () => {
 
         if(msg.chat.type === 'private') {
             
+            console.log('last_callback_pressed_button_INDEXPRIVATE: ', last_callback_pressed_button)
+
             // PRIVATE mess to bot
             return onPrivate_module.onPrivateMess(
-                bot, msg, text, chatId, 
+                bot,
+                msg, 
+                text, 
+                chatId, 
                 last_inputed_text_from_user,
                 last_callback_pressed_button,
-                data_user_quiz)
+                data_user_quiz
+                )
 
         }else {
             // GROUP mess in group where is bot presents
-            return onGroup_module.onFromGroupMessages(bot, msg, text, chatId)    
+            return onGroup_module.onFromGroupMessages(
+                bot,
+                msg, 
+                text, 
+                chatId, 
+                last_inputed_text_from_user,
+                last_callback_pressed_button,
+                data_user_quiz
+                )    
 
             
         }
@@ -203,7 +219,7 @@ const start = () => {
     //answers from clicked buttons
     bot.on('callback_query', msg => {
 
-        const data = msg.data;
+        const callback_data = msg.data;
         
         console.log(msg)
         console.log('scenario_module.main_switch')
@@ -213,7 +229,7 @@ const start = () => {
         scenario_module.main_switch(
             bot, 
             msg,
-            data, 
+            callback_data, 
             chatId,
             last_callback_pressed_button,
             data_user_quiz,
