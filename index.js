@@ -98,7 +98,7 @@ const birth_options_days = {
     })
 } 
 
-global.last_callback_pressed_button = '';
+exports.last_callback_pressed_button = '';
 
 
 const start = () => {

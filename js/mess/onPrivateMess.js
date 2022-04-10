@@ -1,5 +1,5 @@
-const store_answers_module = require('../callback_tool/callback_save_answers')
 const scenario_module = require('../scenario/quiz')
+const global_vars = require('../js_tool/Global_vars')
 
 module.exports = {
 
