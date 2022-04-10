@@ -6,6 +6,7 @@ const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
 const bot = new TelegramApi(token, {polling: true})
 
 const global_vars = require('./js/js_tool/Global_vars')
+module.exports = global_vars;
 // const global_vars = require('./js/js_tool/Global_vars')
 
 const fs = require('fs');

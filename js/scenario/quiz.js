@@ -1,4 +1,7 @@
 const enums_module = require('../js_tool/Enums')
+const index_module = require('../../index')
+
+
 
 function setCallBackButtonConst(button_label_text, callback_data){
     return {
@@ -63,7 +66,10 @@ module.exports = {
             console.log('callback_data ', callback_data)
             // const chatId = msg.message.chat.id;
             const text = msg.text;
-
+            
+            console.log('index_module.global_vars.last_callback_pressed_button ',
+                index_module.global_vars.last_callback_pressed_button)
+                
         switch(callback_data){
 
             case 'hello':

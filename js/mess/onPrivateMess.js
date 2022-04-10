@@ -1,4 +1,5 @@
 const scenario_module = require('../scenario/quiz')
+const index_module = require('../../index')
 
 module.exports = {
 
@@ -28,7 +29,7 @@ module.exports = {
                 console.log('date mess: '+ new Date(msg.date).toISOString())
                 
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
-                console.log('data_user_quiz: ', global_vars.data_user_quiz)
+                console.log('data_user_quiz: ', index_module.global_vars.data_user_quiz)
 
                 // bot.send
                 const chatId = msg.chat.id;
