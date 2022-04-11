@@ -234,7 +234,10 @@ module.exports = function( global_vars )
 
 
                     //save data to CSV
-                    
+                    const csv_master = require('../js_tool/CVS_master') ( global_vars );
+                    csv_master.save_data_toCSV(msg);
+
+
                     /**
                      * ТУТ МОЖНА ЗБЕРІГАТИ ВСІ ДАНІ,
                      * СОРТУВАТИ ФОТКИ, і т.д.
