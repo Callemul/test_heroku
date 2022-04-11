@@ -1,3 +1,5 @@
+це коли в мене сам телеграм не грузиться, крутиться і крутиться кружочок, але інтернет є
+
 
 RequestError: Error: connect ETIMEDOUT 149.154.167.220:443
     at new RequestError (D:\All without ARM\TelegramBots\ChurhFixBot\node_modules\request-promise-core\lib\errors.js:14:15)
