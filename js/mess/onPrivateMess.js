@@ -1,9 +1,8 @@
-const scenario_module = require('../scenario/quiz')
-const index_module = require('../../index')
 
-module.exports = {
 
-    onPrivateMess: function(
+module.exports = function( global_vars ) {
+
+   return{ onPrivateMess: function(
         bot, 
         msg, 
         text, 
@@ -29,10 +28,11 @@ module.exports = {
                 console.log('date mess: '+ new Date(msg.date).toISOString())
                 
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
-                console.log('data_user_quiz: ', index_module.global_vars.data_user_quiz)
+                console.log('data_user_quiz: ', global_vars.data_user_quiz)
 
                 // bot.send
                 const chatId = msg.chat.id;
+                var scenario_module = require('../scenario/quiz') ( global_vars )
 
                 return scenario_module.main_switch(
                     bot,
@@ -46,9 +46,10 @@ module.exports = {
 
             //bot got a PHOTO!!!!!
             if(msg.hasOwnProperty('photo')){
+                const photo_module = require('../downloader/photo') ( global_vars )
                 
                 //downloadPhoto(msg)
-                return photo_module.downloadPhoto(msg);
+                return photo_module.downloadPhoto(bot, msg);
 
             }
 
@@ -77,6 +78,8 @@ module.exports = {
                 global_vars.last_inputed_text_from_user = text;
 
                 const chatId = msg.chat.id;
+                
+                var scenario_module = require('../scenario/quiz') ( global_vars )
 
                 scenario_module.main_switch(
                     bot,
@@ -85,7 +88,7 @@ module.exports = {
                     chatId
                     );
 
-                global_vars.last_callback_pressed_button = '';
+                // global_vars.last_callback_pressed_button = '';
 
                 return;
             }
@@ -95,4 +98,5 @@ module.exports = {
 
     },
 
+}
 }

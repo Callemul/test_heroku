@@ -1,5 +1,12 @@
-module.exports = {
-    onFromGroupMessages: function(bot, msg, text, chatId){
+module.exports = function (global_vars)  {
+    return {
+    onFromGroupMessages: function(
+        bot, 
+        msg, 
+        text, 
+        chatId,
+        global_vars
+        ){
 
         //G R O U P ! ! !
             console.log('command from group')
@@ -17,4 +24,5 @@ module.exports = {
             }
             
     },
+}
 }

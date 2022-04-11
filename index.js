@@ -5,21 +5,31 @@ const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
 
 const bot = new TelegramApi(token, {polling: true})
 
-const global_vars = require('./js/js_tool/Global_vars')
-module.exports = global_vars;
-// const global_vars = require('./js/js_tool/Global_vars')
-
 const fs = require('fs');
 const { version } = require('os');
 const readline = require('readline');
 
 const commands_module = require('./js/commands')
 const enums_module = require('./js/js_tool/Enums')
-const photo_module = require('./js/donwloader/photo')
-const onGroup_module = require('./js/mess/onFromGroupMess')
-const onPrivate_module = require('./js/mess/onPrivateMess')
-const scenario_module = require('./js/scenario/quiz')
 
+var global_vars = {
+    last_callback_pressed_button: '',
+    last_inputed_text_from_user: '',
+    data_user_quiz : {
+      "1. conference": "",
+      "2. town": "",
+      "3. date": "",
+      "4. description": "",
+      "5. phone": "",
+      "6. bystander": "",
+      "7. load files": "",
+      "chatId": "",
+    }
+  };
+
+  var  scenario_module = require('./js/scenario/quiz') ( global_vars )
+  var  onGroup_module = require('./js/mess/onFromGroupMess') ( global_vars )
+  var  onPrivate_module = require('./js/mess/onPrivateMess') ( global_vars )
 
 
 const birth_options_months = {
@@ -145,6 +155,8 @@ const birth_options_days = {
         if(msg.chat.type === 'private') {
             
             console.log('last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
+            console.log('global_vars_INDEXPRIVATE: ', global_vars)
+            console.log('global_vars.last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
 
             // PRIVATE mess to bot
             return onPrivate_module.onPrivateMess(

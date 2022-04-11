@@ -1,17 +1,35 @@
-module.exports = {
-    downloadPhoto: function(msg) {
+const fs = require('fs');
+
+module.exports = function( global_vars ) {
+    return {
+    downloadPhoto: function(
+        bot, 
+        msg) {
         //https://stackoverflow.com/questions/35991698/telegram-bot-receive-photo-url
         console.log('function downloadPhoto START')
 
         var file_id  = (msg.photo[msg.photo.length-1].file_id);
+        const chatId = msg.chat.id;
 
 
 
+        const main_dir = 'images_and_videos';
+        var conference_dir = global_vars.data_user_quiz["1. conference"];
+        var town_folder_old = global_vars.data_user_quiz["2. town"];
+        var town_folder = town_folder_old.replace(/[/\\?%*:|"<>]/g, '-');
 
-        var downloadDir = './images';
+
+
+        var downloadDir = './' + main_dir + '/' + conference_dir + '/' + town_folder;
+
+        if (!fs.existsSync(downloadDir)){
+            fs.mkdirSync(downloadDir, { recursive: true });
+        }
+
+
         let something = ''
         var https = require('https')
-        var fs = require('fs');
+        
         bot.getFileLink(file_id).then( async (fileUri) => {
             var base64Img = require('base64-img');
 
@@ -24,8 +42,8 @@ module.exports = {
 
                 });
             file.on('finish', () =>{
-                console.log('msg.text ="/images/"+newName')
-
+                console.log(`msg.text ="/${downloadDir}/"+newName`)
+                bot.sendMessage(chatId, "Фото завантажено")
                 //createAndUploadFileToGoogleSharedFolder()
             })
         });
@@ -33,4 +51,5 @@ module.exports = {
     },
 
 
+}
 }

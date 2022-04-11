@@ -1,6 +1,4 @@
 const enums_module = require('../js_tool/Enums')
-const index_module = require('../../index')
-
 
 
 function setCallBackButtonConst(button_label_text, callback_data){
@@ -13,7 +11,7 @@ function setCallBackButtonConst(button_label_text, callback_data){
     } 
 }
 
-const begin_button_0 = setCallBackButtonConst('Почати заповнювати анкету', '0_begin');
+const begin_button_0 = setCallBackButtonConst('Почати реєстрацію', '0_begin');
 const begin_button_1 = {
     reply_markup: JSON.stringify({
         inline_keyboard:[
@@ -44,8 +42,11 @@ const begin_button_6 = {
         } 
 const begin_button_7 = setCallBackButtonConst('Підтвердити завершення передач фото/відео', '7_begin');
 
-    
-module.exports = {
+
+//https://stackoverflow.com/a/7906810/10175189
+module.exports = function( global_vars )
+        {
+
     /**
      * 
      * @param {*} bot - bot
@@ -56,33 +57,31 @@ module.exports = {
      * @param {*} data_user_quiz - answer storedge object 
      * @param {*} inputed_text_from_user - inputed text message from user to bot (can be null)
      */
-    main_switch: function(
+    return{ main_switch: function(
         bot,
         msg,
         callback_data,
-        chatId        
+        chatId       
         ){
             console.log('main_switch begin')
             console.log('callback_data ', callback_data)
             // const chatId = msg.message.chat.id;
             const text = msg.text;
             
-            console.log('index_module.global_vars.last_callback_pressed_button ',
-                index_module.global_vars.last_callback_pressed_button)
-                
+            console.log('global_vars.last_callback_pressed_button ',
+                global_vars.last_callback_pressed_button)
+
         switch(callback_data){
 
             case 'hello':
                 console.log('case hello')
 
                 bot.sendMessage(chatId,
-                    `Привіт!
+                    `Я - український бот реєстраціі руйнувань молитовних будинків АСД
+                    
+                Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha
                 
-                Я український бот для добавляння в базу фото/відео молитовних будинків АСД, які були пошкоджені підчас війни
-
-                Перед завантаженням фото/відео, заповніть, будь ласка, анкету. 
-                
-                Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha`, begin_button_0)
+                Щоб зареєструвати руйнування натисни "Почати реєстрацію"`, begin_button_0)
                 break;
 
             case '0_begin':
@@ -91,7 +90,7 @@ module.exports = {
                 global_vars.last_callback_pressed_button = '0_begin';
 
                 //show 8 buttons conferences
-                bot.sendMessage(chatId, "➡️1. Введіть конференцію (наприклад, Подільська):", begin_button_1);
+                bot.sendMessage(chatId, "➡️1. Виберіть конференцію:", begin_button_1);
                 
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
@@ -158,7 +157,7 @@ module.exports = {
                 console.log('4_begin:');
                 global_vars.last_callback_pressed_button = '4_begin';
                 //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️4. Опишіть коротко подію. Одним повідомленням, без виправлень. Або напишіть нове (бо зараховано буде лиш останнє повідомлення)`, begin_button_4)
+                bot.sendMessage(chatId, `➡️4. Опишіть коротко подію. Одним повідомленням, без виправлень. Або напишіть нове (бо зараховано буде лиш останнє повідомлення)`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;
@@ -173,7 +172,7 @@ module.exports = {
                 global_vars.last_callback_pressed_button = '5_begin';
                 
                 //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`, begin_button_5)
+                bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;    
@@ -205,18 +204,18 @@ module.exports = {
                 global_vars.last_callback_pressed_button = '7_begin';
                 
                 
-                bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото, відео
+                bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото/відео
                 
-                Дочекайтесь, будь ласка, поки всі фото, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
+                Дочекайтесь, будь ласка, поки всі фото/відео, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
                 
-                Якщо ви завершили передачу фото, введіть мені слово: finish`)
+                Якщо ви завершили передачу фото/відео, введіть мені слово: finish`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
                 break;  
 
             case '7_begin_answered':
                 console.log('7_begin_answered:')
-                if(inputed_text_from_user == 'finish'){
+                if(global_vars.last_inputed_text_from_user == 'finish'){
                     global_vars.data_user_quiz['7. load files'] = 'yes';
                     console.log('data_user_quiz: ', global_vars.data_user_quiz)
                     global_vars.last_callback_pressed_button = '';
@@ -253,3 +252,4 @@ module.exports = {
 
     }
 }
+        }
