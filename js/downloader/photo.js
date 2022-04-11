@@ -12,15 +12,8 @@ module.exports = function( global_vars ) {
         const chatId = msg.chat.id;
 
 
-
-        const main_dir = 'images_and_videos';
-        var conference_dir = global_vars.data_user_quiz["1. conference"];
-        var town_folder_old = global_vars.data_user_quiz["2. town"];
-        var town_folder = town_folder_old.replace(/[/\\?%*:|"<>]/g, '-');
-
-
-
-        var downloadDir = './' + main_dir + '/' + conference_dir + '/' + town_folder;
+        var downloadDir = global_vars.data_user_quiz.download_dir;
+        
 
         if (!fs.existsSync(downloadDir)){
             fs.mkdirSync(downloadDir, { recursive: true });

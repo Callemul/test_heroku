@@ -220,6 +220,21 @@ module.exports = function( global_vars )
                     console.log('data_user_quiz: ', global_vars.data_user_quiz)
                     global_vars.last_callback_pressed_button = '';
                     
+
+                    //one_time saving
+                    global_vars.data_user_quiz.chatId = chatId;
+
+                    //set download folder
+                    const main_dir = 'images_and_videos';
+                    var conference_dir = global_vars.data_user_quiz["1. conference"];
+                    var town_folder_old = global_vars.data_user_quiz["2. town"];
+                    var town_folder = town_folder_old.replace(/[/\\?%*:|"<>]/g, '-');
+                    var downloadDir = './' + main_dir + '/' + conference_dir + '/' + town_folder;
+                    global_vars.data_user_quiz.download_dir = downloadDir;
+
+
+                    //save data to CSV
+                    
                     /**
                      * ТУТ МОЖНА ЗБЕРІГАТИ ВСІ ДАНІ,
                      * СОРТУВАТИ ФОТКИ, і т.д.

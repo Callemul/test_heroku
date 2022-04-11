@@ -24,6 +24,7 @@ var global_vars = {
       "6. bystander": "",
       "7. load files": "",
       "chatId": "",
+      "download_dir": ""
     }
   };
 
