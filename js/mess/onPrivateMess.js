@@ -45,7 +45,6 @@ module.exports = function( global_vars ) {
                 }
 
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
-                console.log('data_user_quiz: ', global_vars.data_user_quiz)
 
                 // bot.send
                 const chatId = msg.chat.id;
@@ -64,11 +63,15 @@ module.exports = function( global_vars ) {
 
             //bot got a PHOTO!!!!!
             if(msg.hasOwnProperty('photo')){
+                console.log('got photo START')
+
                 var downloadDir = global_vars.data_user_quiz.download_dir;
                 var photoId = msg.photo[msg.photo.length-1].file_id;
                 var path = bot.downloadFile(photoId, downloadDir).then(function (path) {
                     console.log(path);
                 });
+                console.log('got photo END')
+
                 return;
 
                 // const photo_module = require('../downloader/photo') ( global_vars )
@@ -85,11 +88,13 @@ module.exports = function( global_vars ) {
 
             //is got video (MP4)
             if(msg.hasOwnProperty('video')){
+                console.log('got video START')
                 var downloadDir = global_vars.data_user_quiz.download_dir;
                 var videoId = msg.video.file_id;
                 var path = bot.downloadFile(videoId, downloadDir).then(function (path) {
                     console.log(path);
                 });
+                console.log('got video END')
                 return;
                
             }
@@ -103,8 +108,10 @@ module.exports = function( global_vars ) {
             //     return
             // }
 
+            console.log('-----  OTHER TEXT from user   START  -----')
             console.log('last_callback_pressed_buttonWWW: ', global_vars.last_callback_pressed_button)
             if(global_vars.last_callback_pressed_button != ''){
+                
                 //save last message (when quiz_mode turned on)
                 global_vars.last_inputed_text_from_user = text;
 
