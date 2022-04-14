@@ -13,7 +13,7 @@ module.exports = function( global_vars ) {
 
 
         var downloadDir = global_vars.data_user_quiz.download_dir;
-        
+
 
         if (!fs.existsSync(downloadDir)){
             fs.mkdirSync(downloadDir, { recursive: true });
@@ -40,6 +40,10 @@ module.exports = function( global_vars ) {
                 //createAndUploadFileToGoogleSharedFolder()
             })
         });
+
+    },
+
+    generatePathForFile: function(){
 
     },
 

@@ -27,6 +27,10 @@ module.exports = function( global_vars ) {
                 
                 console.log('date mess: '+ new Date(msg.date).toISOString())
                 
+                //clear vars for new game
+                global_vars.last_callback_pressed_button='';
+                global_vars.last_inputed_text_from_user='';
+
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)
 
@@ -34,6 +38,7 @@ module.exports = function( global_vars ) {
                 const chatId = msg.chat.id;
                 var scenario_module = require('../scenario/quiz') ( global_vars )
 
+                console.log('from onPrivateMess.js /start state')
                 return scenario_module.main_switch(
                     bot,
                     msg,
@@ -46,10 +51,17 @@ module.exports = function( global_vars ) {
 
             //bot got a PHOTO!!!!!
             if(msg.hasOwnProperty('photo')){
-                const photo_module = require('../downloader/photo') ( global_vars )
+                var downloadDir = global_vars.data_user_quiz.download_dir;
+                var photoId = msg.photo[msg.photo.length-1].file_id;
+                var path = bot.downloadFile(photoId, downloadDir).then(function (path) {
+                    console.log(path);
+                });
+                return;
+
+                // const photo_module = require('../downloader/photo') ( global_vars )
                 
-                //downloadPhoto(msg)
-                return photo_module.downloadPhoto(bot, msg);
+                // //downloadPhoto(msg)
+                // return photo_module.downloadPhoto(bot, msg);
 
             }
 
@@ -60,7 +72,13 @@ module.exports = function( global_vars ) {
 
             //is got video (MP4)
             if(msg.hasOwnProperty('video')){
-
+                var downloadDir = global_vars.data_user_quiz.download_dir;
+                var videoId = msg.video.file_id;
+                var path = bot.downloadFile(videoId, downloadDir).then(function (path) {
+                    console.log(path);
+                });
+                return;
+               
             }
 
             // var iftext_is_answer = store_answers_module.checkByCallback(
@@ -80,7 +98,8 @@ module.exports = function( global_vars ) {
                 const chatId = msg.chat.id;
                 
                 var scenario_module = require('../scenario/quiz') ( global_vars )
-
+                
+                console.log('from onPrivateMess.js else state')
                 scenario_module.main_switch(
                     bot,
                     msg,

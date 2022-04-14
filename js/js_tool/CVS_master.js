@@ -1,7 +1,5 @@
-const fs = require('fs');
-
-var json2csv = require('json2csv');
-
+const fs = require('fs-extra');
+const { Parser } = require('json2csv');
 module.exports = function( global_vars ) {
     return {
     save_data_toCSV: function( msg ) {
@@ -17,32 +15,33 @@ module.exports = function( global_vars ) {
             "Дата":  global_vars.data_user_quiz["3. date"],
             "Опис":  global_vars.data_user_quiz["4. description"],
             "Телефон":  global_vars.data_user_quiz["5. phone"],
-            "Очевидці":  global_vars.data_user_quiz["6. bystander"],
+            "Очевидці":  global_vars.data_user_quiz["6. bystander"]=='6_begin_yes'?'Так':'Ні',
             "Папка з фото":  global_vars.data_user_quiz["download_dir"],
             "chatId":  global_vars.data_user_quiz["chatId"],
           }
 
         //if exist main_CSV_file
-        const path = './../../_excel_file/Дані з бота.csv';
-        var csvStr = json2csv({ data: row, fields: fields, del: ';' });
+        const path = './_excel_file/Дані з бота.csv';
+        const json2csvParser = new Parser({ delimiter: ';', quote: '', });
+
+        const csvData = json2csvParser.parse(row);
+        
+        console.log()
+        // var csvStr = json2csv.parse( row, { fields: fields, del: ';' });
 
         try {
             if (!fs.existsSync(path)) {
                 // https://stackoverflow.com/a/45232685/10175189
+                
+                //create if not exists
+                // fs.ensureFileSync(path);
 
-
-                fs.writeFile(path, '\ufeff' + csvStr, { encoding: 'utf-8' },function(err) {
-                    if (err) {
-                        console.log('!! err create CSV file !!', err);
-                    }
-                    
-                    console.log('file saved');
-                });
+                fs.writeFile(path, '\ufeff' + csvData, { encoding: 'utf-8', flag: 'wx' });
 
             }else{
-
-                fs.appendFile(path, csvStr, (err) => {
-                    return console.log('!! error append file', err);
+                var getRowWithoutHeaders = "\r\n"+csvData.split('\r\n')[1];
+                fs.appendFile(path, getRowWithoutHeaders, (err) => {
+                    // return console.log('!! error append file', err);
                 });
 
             }

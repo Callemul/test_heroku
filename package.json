@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "base64-img": "^1.0.4",
+    "dotenv": "^16.0.0",
+    "fs-extra": "^10.0.1",
+    "json2csv": "^5.0.7",
     "node-telegram-bot-api": "^0.56.0",
     "nodemon": "^2.0.15",
     "socks5-https-client": "^1.2.1"

@@ -203,6 +203,21 @@ module.exports = function( global_vars )
                 console.log('7_begin:');
                 global_vars.last_callback_pressed_button = '7_begin';
                 
+                //one_time saving
+                global_vars.data_user_quiz.chatId = chatId;
+
+                //set download folder
+                const main_dir = 'images_and_videos';
+                var conference_dir = global_vars.data_user_quiz["1. conference"];
+                var town_folder_old = global_vars.data_user_quiz["2. town"];
+                var town_folder = town_folder_old.replace(/[/\\?%*:|"<>]/g, '-');
+                var downloadDir = './' + main_dir + '/' + conference_dir + '/' + town_folder;
+                global_vars.data_user_quiz.download_dir = downloadDir;
+
+
+                //save data to CSV
+                const csv_master = require('../js_tool/CVS_master') ( global_vars );
+                csv_master.save_data_toCSV(msg);
                 
                 bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото/відео
                 
@@ -221,21 +236,7 @@ module.exports = function( global_vars )
                     global_vars.last_callback_pressed_button = '';
                     
 
-                    //one_time saving
-                    global_vars.data_user_quiz.chatId = chatId;
-
-                    //set download folder
-                    const main_dir = 'images_and_videos';
-                    var conference_dir = global_vars.data_user_quiz["1. conference"];
-                    var town_folder_old = global_vars.data_user_quiz["2. town"];
-                    var town_folder = town_folder_old.replace(/[/\\?%*:|"<>]/g, '-');
-                    var downloadDir = './' + main_dir + '/' + conference_dir + '/' + town_folder;
-                    global_vars.data_user_quiz.download_dir = downloadDir;
-
-
-                    //save data to CSV
-                    const csv_master = require('../js_tool/CVS_master') ( global_vars );
-                    csv_master.save_data_toCSV(msg);
+                    
 
 
                     /**

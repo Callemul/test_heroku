@@ -1,5 +1,7 @@
 const TelegramApi = require('node-telegram-bot-api');
-const token = "5260114527:AAEvX52Xcui-EfuE3Uf7M9F5-TzeyutFf8Y";
+
+const { env } = require('process');
+const token = env.;
 
 //was @polling_error in local PC https://github.com/yagop/node-telegram-bot-api/issues/562#issuecomment-382313307
 
@@ -10,7 +12,8 @@ const { version } = require('os');
 const readline = require('readline');
 
 const commands_module = require('./js/commands')
-const enums_module = require('./js/js_tool/Enums')
+const enums_module = require('./js/js_tool/Enums');
+
 
 var global_vars = {
     last_callback_pressed_button: '',
@@ -199,6 +202,7 @@ const birth_options_days = {
         
         const chatId = msg.message.chat.id;
 
+        console.log('from index.js callback_query state')
         scenario_module.main_switch(
             bot, 
             msg,
