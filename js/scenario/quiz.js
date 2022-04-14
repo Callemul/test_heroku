@@ -246,7 +246,11 @@ module.exports = function( global_vars )
 
             case '7_begin_answered':
                 console.log('case 7_begin_answered: START from switch')
-                if(global_vars.last_inputed_text_from_user == 'finish'){
+                if(
+                    global_vars.last_inputed_text_from_user == 'finish'
+                    || global_vars.last_inputed_text_from_user == 'Finish'
+                    || global_vars.last_inputed_text_from_user == '🏁'
+                 ){
                     global_vars.data_user_quiz['7. load files'] = 'yes';
                     console.log('data_user_quiz: ', global_vars.data_user_quiz)
                     global_vars.last_callback_pressed_button = '';

@@ -110,7 +110,13 @@ module.exports = function( global_vars ) {
 
             console.log('-----  OTHER TEXT from user   START  -----')
             console.log('last_callback_pressed_buttonWWW: ', global_vars.last_callback_pressed_button)
-            if(global_vars.last_callback_pressed_button != ''){
+            if(global_vars.last_callback_pressed_button != ''
+            
+                /** тут не допускати входження бота коли користувач має лиш кнопки нажати, а все що пише - треба ігнорувати */
+                && global_vars.last_callback_pressed_button != '0_begin'
+                && global_vars.last_callback_pressed_button != '6_begin'
+
+            ){
                 
                 //save last message (when quiz_mode turned on)
                 global_vars.last_inputed_text_from_user = text;
@@ -133,6 +139,7 @@ module.exports = function( global_vars ) {
             }
 
             //other
+
             return bot.sendMessage(chatId, "Я тебе не зрозумів. Запусти команду якусь, наприклад /start (для цього пропиши той текст в чаті мені, або натисни на неї, синій фон і слідуй інструкціям)")
 
     },
