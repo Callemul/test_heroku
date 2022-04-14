@@ -30,6 +30,19 @@ module.exports = function( global_vars ) {
                 //clear vars for new game
                 global_vars.last_callback_pressed_button='';
                 global_vars.last_inputed_text_from_user='';
+                
+                //clear vars for new game
+                global_vars.data_user_quiz = {
+                    "1. conference": "",
+                    "2. town": "",
+                    "3. date": "",
+                    "4. description": "",
+                    "5. phone": "",
+                    "6. bystander": "",
+                    "7. load files": "",
+                    "chatId": "",
+                    "download_dir": ""
+                }
 
 //                await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/f7c/cd4/f7ccd406-4a2d-363e-a098-0ff36e2d534b/4.webp')
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)

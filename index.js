@@ -1,15 +1,11 @@
 const TelegramApi = require('node-telegram-bot-api');
 
-const { env } = require('process');
-const token = env.;
+require('dotenv').config();
+const token = process.env.BOT_TOKEN;
 
 //was @polling_error in local PC https://github.com/yagop/node-telegram-bot-api/issues/562#issuecomment-382313307
 
 const bot = new TelegramApi(token, {polling: true})
-
-const fs = require('fs');
-const { version } = require('os');
-const readline = require('readline');
 
 const commands_module = require('./js/commands')
 const enums_module = require('./js/js_tool/Enums');
@@ -140,6 +136,10 @@ const birth_options_days = {
     });
 
     bot.on('channel_post', async msg => {
+
+        console.log('bot.on(\'channel_post\')   START')
+
+
         const text = msg.text;
         const chatId = msg.chat.id;
 
@@ -151,6 +151,7 @@ const birth_options_days = {
 
     bot.on('message', async msg =>{
 
+        console.log('bot.on(\'message\')   START')
         const text = msg.text;
         const chatId = msg.chat.id;
 
@@ -158,6 +159,8 @@ const birth_options_days = {
 
         if(msg.chat.type === 'private') {
             
+            console.log('bot.on(\'message\')   START    PRIVATE-chat type')
+
             console.log('last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
             console.log('global_vars_INDEXPRIVATE: ', global_vars)
             console.log('global_vars.last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
@@ -172,6 +175,8 @@ const birth_options_days = {
 
         }else {
             // GROUP mess in group where is bot presents
+            console.log('bot.on(\'message\')   START    GROUP-chat type')
+
             return onGroup_module.onFromGroupMessages(
                 bot,
                 msg, 
@@ -194,12 +199,12 @@ const birth_options_days = {
 
     //answers from clicked buttons
     bot.on('callback_query', msg => {
+        console.log('bot.on(\'callback_query\')   START')
 
         const callback_data = msg.data;
         
         console.log(msg)
-        console.log('scenario_module.main_switch')
-        
+
         const chatId = msg.message.chat.id;
 
         console.log('from index.js callback_query state')
@@ -209,6 +214,8 @@ const birth_options_days = {
             callback_data, 
             chatId
         );
+
+        console.log('bot.on(\'callback_query\')   END')
 
         
     })

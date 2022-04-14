@@ -1,4 +1,5 @@
 const enums_module = require('../js_tool/Enums')
+const fs = require('fs');
 
 
 function setCallBackButtonConst(button_label_text, callback_data){
@@ -63,13 +64,15 @@ module.exports = function( global_vars )
         callback_data,
         chatId       
         ){
+            console.log('-------------begin TITLE -----------')
             console.log('main_switch begin')
             console.log('callback_data ', callback_data)
-            // const chatId = msg.message.chat.id;
-            const text = msg.text;
-            
             console.log('global_vars.last_callback_pressed_button ',
                 global_vars.last_callback_pressed_button)
+            console.log('-------------end TITLE -----------')
+            
+            const text = msg.text;
+            // const chatId = msg.message.chat.id;
 
         switch(callback_data){
 
@@ -82,10 +85,11 @@ module.exports = function( global_vars )
                 Якщо виникнуть питання, можете звертатись до розробника @Ivanov_Sasha
                 
                 Щоб зареєструвати руйнування натисни "Почати реєстрацію"`, begin_button_0)
+                console.log('end case from switch hello');
                 break;
 
             case '0_begin':
-                console.log('0_begin: роспочато анкетування')
+                console.log('case 0_begin: START from switch')
                 
                 global_vars.last_callback_pressed_button = '0_begin';
 
@@ -94,6 +98,8 @@ module.exports = function( global_vars )
                 
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('case 0_begin: END from switch')
+
                 //next: wait pressed text (conferencename)
                 break;
             
@@ -117,11 +123,12 @@ module.exports = function( global_vars )
                 bot.sendMessage(chatId, "➡️2. Введіть місто")
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('end case from switch TOWNS');
 
 
                 break;
             case '1_1_begin_answered':
-                console.log('1_1_begin_answered: роспочато анкетування')
+                console.log('case 1_1_begin_answered: START from switch')
                 
                 global_vars.data_user_quiz['2. town'] = global_vars.last_inputed_text_from_user
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)
@@ -144,12 +151,13 @@ module.exports = function( global_vars )
                                 `)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('end case from switch 1_1_begin_answered');
                 break;
         
 
 
             case '3_begin_answered':
-                console.log('3_begin_answered:')
+                console.log('case 3_begin_answered: START from switch')
                 global_vars.data_user_quiz['3. date'] = global_vars.last_inputed_text_from_user
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
@@ -160,10 +168,11 @@ module.exports = function( global_vars )
                 bot.sendMessage(chatId, `➡️4. Опишіть коротко подію. Одним повідомленням, без виправлень. Або напишіть нове (бо зараховано буде лиш останнє повідомлення)`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('end case from switch 3_begin_answered');
                 break;
 
             case '4_begin_answered':
-                console.log('4_begin_answered:')
+                console.log('case 4_begin_answered: START from switch')
                 global_vars.data_user_quiz['4. description'] = global_vars.last_inputed_text_from_user
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
@@ -175,11 +184,12 @@ module.exports = function( global_vars )
                 bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('end case from switch 4_begin_answered');
                 break;    
 
 
             case '5_begin_answered':
-                console.log('5_begin_answered:')
+                console.log('case 5_begin_answered: START from switch')
                 global_vars.data_user_quiz['5. phone'] = global_vars.last_inputed_text_from_user
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
@@ -191,12 +201,13 @@ module.exports = function( global_vars )
                 bot.sendMessage(chatId, `➡️6. Чи є свідки?`, begin_button_6)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('end case from switch 5_begin_answered');
                 break;  
 
 
             case '6_begin_no':
             case '6_begin_yes':
-                console.log('6_begin_yes/no:')
+                console.log('case 6_begin_yes/no: START from switch')
                 global_vars.data_user_quiz['6. bystander'] = callback_data;
                 console.log('data_user_quiz: ', global_vars.data_user_quiz)
                 //---------------------------------------------
@@ -213,7 +224,11 @@ module.exports = function( global_vars )
                 var town_folder = town_folder_old.replace(/[/\\?%*:|"<>]/g, '-');
                 var downloadDir = './' + main_dir + '/' + conference_dir + '/' + town_folder;
                 global_vars.data_user_quiz.download_dir = downloadDir;
-
+                
+                //prepare (create) folder for downloading files
+                if (!fs.existsSync(downloadDir)){
+                    fs.mkdirSync(downloadDir, { recursive: true });
+                }
 
                 //save data to CSV
                 const csv_master = require('../js_tool/CVS_master') ( global_vars );
@@ -226,10 +241,11 @@ module.exports = function( global_vars )
                 Якщо ви завершили передачу фото/відео, введіть мені слово: finish`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars.last_callback_pressed_button)
+                console.log('end case from switch 6_begin_yes/no-answered');
                 break;  
 
             case '7_begin_answered':
-                console.log('7_begin_answered:')
+                console.log('case 7_begin_answered: START from switch')
                 if(global_vars.last_inputed_text_from_user == 'finish'){
                     global_vars.data_user_quiz['7. load files'] = 'yes';
                     console.log('data_user_quiz: ', global_vars.data_user_quiz)
