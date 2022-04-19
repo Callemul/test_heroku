@@ -11,25 +11,13 @@ const commands_module = require('./js/commands')
 const enums_module = require('./js/js_tool/Enums');
 
 
-var global_vars_template = {
-    last_callback_pressed_button: '',
-    last_inputed_text_from_user: '',
-    data_user_quiz : {
-      "1. conference": "",
-      "2. town": "",
-      "3. date": "",
-      "4. description": "",
-      "5. phone": "",
-      "6. bystander": "",
-      "7. load files": "",
-      "chatId": "",
-      "download_dir": ""
-    }
-  };
 
-  var  scenario_module = require('./js/scenario/quiz') ( global_vars )
-  var  onGroup_module = require('./js/mess/onFromGroupMess') ( global_vars )
-  var  onPrivate_module = require('./js/mess/onPrivateMess') ( global_vars )
+
+  var global_vars_allusers = [];
+
+  var  scenario_module = require('./js/scenario/quiz') ( global_vars_allusers )
+  var  onGroup_module = require('./js/mess/onFromGroupMess') ( global_vars_allusers )
+  var  onPrivate_module = require('./js/mess/onPrivateMess') ( global_vars_allusers )
 
 
 const birth_options_months = {
@@ -159,12 +147,22 @@ const birth_options_days = {
 
         if(msg.chat.type === 'private') {
             
+
+            
+
+              console.log(global_vars_allusers)
+
             console.log('bot.on(\'message\')   START    PRIVATE-chat type')
 
-            console.log('last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
-            console.log('global_vars_INDEXPRIVATE: ', global_vars)
-            console.log('global_vars.last_callback_pressed_button_INDEXPRIVATE: ', global_vars.last_callback_pressed_button)
-
+            if(global_vars_allusers[chatId]!= undefined){
+                console.log('last_callback_pressed_button_INDEXPRIVATE: ', global_vars_allusers[chatId].last_callback_pressed_button)
+                console.log('~~~~~~~~~~~~~~~~START~~~~~~~~~~~~~~~~~~~: global_vars_allusers' )
+                console.log('global_vars_allusers_INDEXPRIVATE: ', global_vars_allusers)
+                console.log('\n~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~: global_vars_allusers\n' )
+                console.log('global_vars_allusers.last_callback_pressed_button_INDEXPRIVATE: ', global_vars_allusers[chatId].last_callback_pressed_button)
+            }else{
+                console.log('\n\nglobal_vars_allusers[chatId] = undefined \n\n')
+            }
             // PRIVATE mess to bot
             return onPrivate_module.onPrivateMess(
                 bot,
@@ -206,6 +204,18 @@ const birth_options_days = {
         console.log(msg)
 
         const chatId = msg.message.chat.id;
+
+
+        if(global_vars_allusers[chatId]!= undefined){
+            console.log('last_callback_pressed_button_INDEXPRIVATE: ', global_vars_allusers[chatId].last_callback_pressed_button)
+            console.log('~~~~~~~~~~~~~~~~START callback~~~~~~~~~~~~~~~~~~~: global_vars_allusers' )
+            console.log('global_vars_allusers_INDEXPRIVATE: ', global_vars_allusers)
+            console.log('\n~~~~~~~~~~~~~~~~END callback~~~~~~~~~~~~~~~~~~~: global_vars_allusers\n' )
+            console.log('global_vars_allusers.last_callback_pressed_button_INDEXPRIVATE: ', global_vars_allusers[chatId].last_callback_pressed_button)
+        }else{
+            console.log('\n\nglobal_vars_allusers[chatId] = undefined \n\n')
+        }
+
 
         console.log('from index.js callback_query state')
         scenario_module.main_switch(

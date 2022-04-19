@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const { Parser } = require('json2csv');
 module.exports = function( global_vars ) {
     return {
-    save_data_toCSV: function( msg ) {
+    save_data_toCSV: function( msg, chatId ) {
         //https://stackoverflow.com/questions/35991698/telegram-bot-receive-photo-url
         console.log('function save_data_toCSV START')
 
@@ -10,14 +10,14 @@ module.exports = function( global_vars ) {
         var fields = ['car', 'price', 'color'];
         var row = {
             "№":"",
-            "Конференція": global_vars.data_user_quiz["1. conference"],
-            "Місто":  global_vars.data_user_quiz["2. town"],
-            "Дата":  global_vars.data_user_quiz["3. date"],
-            "Опис":  global_vars.data_user_quiz["4. description"],
-            "Телефон":  global_vars.data_user_quiz["5. phone"],
-            "Очевидці":  global_vars.data_user_quiz["6. bystander"]=='6_begin_yes'?'Так':'Ні',
-            "Папка з фото":  global_vars.data_user_quiz["download_dir"],
-            "chatId":  global_vars.data_user_quiz["chatId"],
+            "Конференція": global_vars[chatId].data_user_quiz["1. conference"],
+            "Місто":  global_vars[chatId].data_user_quiz["2. town"],
+            "Дата":  global_vars[chatId].data_user_quiz["3. date"],
+            "Опис":  global_vars[chatId].data_user_quiz["4. description"],
+            "Телефон":  global_vars[chatId].data_user_quiz["5. phone"],
+            "Очевидці":  global_vars[chatId].data_user_quiz["6. bystander"]=='6_begin_yes'?'Так':'Ні',
+            "Папка з фото":  global_vars[chatId].data_user_quiz["download_dir"],
+            "chatId":  global_vars[chatId].data_user_quiz["chatId"],
           }
 
         //if exist main_CSV_file

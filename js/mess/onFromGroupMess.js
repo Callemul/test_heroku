@@ -1,11 +1,10 @@
-module.exports = function (global_vars)  {
+module.exports = function (global_vars_allusers)  {
     return {
     onFromGroupMessages: function(
         bot, 
         msg, 
         text, 
-        chatId,
-        global_vars
+        chatId
         ){
 
         //G R O U P ! ! !
