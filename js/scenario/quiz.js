@@ -234,7 +234,7 @@ module.exports = function( global_vars )
                 const csv_master = require('../js_tool/CVS_master') ( global_vars );
                 csv_master.save_data_toCSV(msg);
                 
-                bot.sendMessage(chatId, `➡️7. Тепер можите передати мені фото/відео
+                bot.sendMessage(chatId, `➡️7. Тепер можете передати мені фото/відео
                 
                 Дочекайтесь, будь ласка, поки всі фото/відео, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
                 

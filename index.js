@@ -11,7 +11,7 @@ const commands_module = require('./js/commands')
 const enums_module = require('./js/js_tool/Enums');
 
 
-var global_vars = {
+var global_vars_template = {
     last_callback_pressed_button: '',
     last_inputed_text_from_user: '',
     data_user_quiz : {
