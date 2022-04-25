@@ -151,23 +151,121 @@ module.exports = function( global_vars_allusers )
 
                 console.log('3_begin:')
 
-                bot.sendMessage(chatId, `➡️3. Зазначте дату події
-                
-Вводьте, будь ласка, в такому форматі:
 
-Наприклад, 27.02.2022
-                                `)
+                const options_months = {
+                    reply_markup: JSON.stringify({
+                        inline_keyboard:[
+                            [{text: '1', callback_data: 'Січень'},
+                            {text: '2', callback_data: 'Лютий'},
+                            {text: '3', callback_data: 'Березень'}],
+                
+                            [{text: '4', callback_data: 'Квітень'},
+                            {text: '5', callback_data: 'Травень'},
+                            {text: '6', callback_data: 'Червень'}],
+                
+                            [{text: '7', callback_data: 'Липень'},
+                            {text: '8', callback_data: 'Серпень'},
+                            {text: '9', callback_data: 'Вересень'}],
+                
+                            [{text: '10', callback_data: 'Жовтень'},
+                            {text: '11', callback_data: 'Листопад'},
+                            {text: '12', callback_data: 'Грудень'}],
+                        ]
+                    })
+                } 
+
+                bot.sendMessage(chatId, `➡️3.1. Зазначте дату події. Спочатку місяць`, options_months)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                 console.log('end case from switch 1_1_begin_answered');
                 break;
         
+            case 'Січень':case 'Лютий':case 'Березень':
+            case 'Квітень':case 'Травень':case 'Червень':
+            case 'Липень':case 'Серпень':case 'Вересень':
+            case 'Жовтень':case 'Листопад':case 'Грудень':
+                console.log('case 3_1_month_answered: START from switch')
+                    
+                global_vars_allusers[chatId].data_user_quiz['3. date'] = callback_data;
+                console.log(global_vars_allusers[chatId].data_user_quiz['3. date'])
+
+                    //---------------------------------------------
+                    /*фіктивно створюю ніби нажата кнопка, типу "підтвердити введення тексту міста/телефону"
+                     * Бо якщо ще робити кнопки підтвердження, 
+                        то тоді лишнього коду вправляючого сценарій подій
+                        (сценарій тоді буде в двох місцях, а це не правильно)
+                     */
+                    global_vars_allusers[chatId].last_callback_pressed_button = '3_begin_day';
+    
+                    console.log('3_begin:')
+    
+    
+                    /**
+                     * space don't delete, because the width at the Android - is weak
+                     */
+                    const options_days = {
+                        reply_markup: JSON.stringify({
+                            inline_keyboard:[
+                                [{text: ' 1 ', callback_data: '1d'},
+                                {text: '2', callback_data: '2d'},
+                                {text: '3', callback_data: '3d'},
+                                {text: '4', callback_data: '4d'},
+                                {text: '5', callback_data: '5d'},
+                                {text: '6', callback_data: '6d'}],
+                    
+                                [{text:'  7  ', callback_data: '7d'},
+                                {text: '  8  ', callback_data: '8d'},
+                                {text: '  9  ', callback_data: '9d'},
+                                {text: '  10  ', callback_data: '10d'},
+                                {text: '  11  ', callback_data: '11d'},
+                                {text: '  12  ', callback_data: '12d'}],
+                    
+                                [{text:'   13   ', callback_data: '13d'},
+                                {text: '   14   ', callback_data: '14d'},
+                                {text: '   15   ', callback_data: '15d'},
+                                {text: '   16   ', callback_data: '16d'},
+                                {text: '   17   ', callback_data: '17d'},
+                                {text: '   18   ', callback_data: '18d'}],
+                    
+                                [{text: '19', callback_data: '19d'},
+                                {text: '20', callback_data: '20d'},
+                                {text: '21', callback_data: '21d'},
+                                {text: '22', callback_data: '22d'},
+                                {text: '23', callback_data: '23d'},
+                                {text: '24', callback_data: '24d'}],
+                    
+                                [{text: '25', callback_data: '25d'},
+                                {text: '26', callback_data: '26d'},
+                                {text: '27', callback_data: '27d'},
+                                {text: '28', callback_data: '28d'},
+                                {text: '29', callback_data: '29d'},
+                                {text: '30', callback_data: '30d'}],
+                    
+                                [{text: '31', callback_data: '31d'}],
+                            ]
+                        })
+                    } 
+                    
+    
+                    bot.sendMessage(chatId, `➡️3.2. Тепер день`, options_days)
+                    // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
+                    console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
+                    console.log('end case from switch 1_1_begin_answered');
+                    break;
 
 
+
+            case '1d':case '2d':case '3d':case '4d':case '5d':
+            case '6d':case '7d':case '8d':case '9d':case '10d':
+            case '11d':case '12d':case '13d':case '14d':case '15d':
+            case '16d':case '17d':case '18d':case '19d':case '20d':
+            case '21d':case '22d':case '23d':case '24d':case '25d':
+            case '26d':case '27d':case '28d':case '29d':case '30d':
+            case '31d':
             case '3_begin_answered':
                 console.log('case 3_begin_answered: START from switch')
-                global_vars_allusers[chatId].data_user_quiz['3. date'] = global_vars_allusers[chatId].last_inputed_text_from_user
-                console.log('data_user_quiz: ', global_vars_allusers[chatId].data_user_quiz)
+                global_vars_allusers[chatId].data_user_quiz['3. date'] = global_vars_allusers[chatId].data_user_quiz['3. date'] + ' ' + callback_data; //month + ' ' + days
+                console.log(global_vars_allusers[chatId].data_user_quiz['3. date'])
                 //---------------------------------------------
               
                 console.log('4_begin:');

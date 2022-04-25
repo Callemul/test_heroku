@@ -22,27 +22,7 @@ const enums_module = require('./js/js_tool/Enums');
   var  onPrivate_module = require('./js/mess/onPrivateMess') ( global_vars_allusers )
 
 
-const birth_options_months = {
-    reply_markup: JSON.stringify({
-        inline_keyboard:[
-            [{text: '1', callback_data: 'Січень'},
-            {text: '2', callback_data: 'Лютий'},
-            {text: '3', callback_data: 'Березень'}],
 
-            [{text: '4', callback_data: 'Квітень'},
-            {text: '5', callback_data: 'Травень'},
-            {text: '6', callback_data: 'Червень'}],
-
-            [{text: '7', callback_data: 'Липень'},
-            {text: '8', callback_data: 'Серпень'},
-            {text: '9', callback_data: 'Вересень'}],
-
-            [{text: '10', callback_data: 'Жовтень'},
-            {text: '11', callback_data: 'Листопад'},
-            {text: '12', callback_data: 'Грудень'}],
-        ]
-    })
-} 
 
 const birth_options_days = {
     reply_markup: JSON.stringify({
