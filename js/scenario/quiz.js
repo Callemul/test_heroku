@@ -43,6 +43,15 @@ const begin_button_6 = {
         } 
 const begin_button_7 = setCallBackButtonConst('Підтвердити завершення передач фото/відео', '7_begin');
 
+const begin_button_rewrite = {
+    reply_markup: JSON.stringify({
+        inline_keyboard:[
+            [
+                {text: 'Ввести заново', callback_data: 'rewrite'},
+                {text: 'Наступне питання', callback_data: 'next'},
+            ]
+            ,] })
+        } 
 
 //https://stackoverflow.com/a/7906810/10175189
 module.exports = function( global_vars_allusers )
@@ -102,7 +111,7 @@ module.exports = function( global_vars_allusers )
                 global_vars_allusers[chatId].last_callback_pressed_button = '0_begin';
 
                 //show 8 buttons conferences
-                bot.sendMessage(chatId, "➡️1. Виберіть конференцію:", begin_button_1);
+                bot.sendMessage(chatId, "➡️ 1. Виберіть конференцію:", begin_button_1);
                 
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
@@ -128,7 +137,7 @@ module.exports = function( global_vars_allusers )
 
                 //send new button
                 global_vars_allusers[chatId].last_callback_pressed_button = '1_1_begin';
-                bot.sendMessage(chatId, "➡️2. Введіть місто")
+                bot.sendMessage(chatId, "➡️ 2. Введіть місто")
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                 console.log('end case from switch TOWNS');
@@ -155,26 +164,26 @@ module.exports = function( global_vars_allusers )
                 const options_months = {
                     reply_markup: JSON.stringify({
                         inline_keyboard:[
-                            [{text: '1', callback_data: 'Січень'},
-                            {text: '2', callback_data: 'Лютий'},
-                            {text: '3', callback_data: 'Березень'}],
+                            [{text: 'Січень', callback_data: 'Січень'},
+                            {text: 'Лютий', callback_data: 'Лютий'},
+                            {text: 'Березень', callback_data: 'Березень'}],
                 
-                            [{text: '4', callback_data: 'Квітень'},
-                            {text: '5', callback_data: 'Травень'},
-                            {text: '6', callback_data: 'Червень'}],
+                            [{text: 'Квітень', callback_data: 'Квітень'},
+                            {text: 'Травень', callback_data: 'Травень'},
+                            {text: 'Червень', callback_data: 'Червень'}],
                 
-                            [{text: '7', callback_data: 'Липень'},
-                            {text: '8', callback_data: 'Серпень'},
-                            {text: '9', callback_data: 'Вересень'}],
+                            [{text: 'Липень', callback_data: 'Липень'},
+                            {text: 'Серпень', callback_data: 'Серпень'},
+                            {text: 'Вересень', callback_data: 'Вересень'}],
                 
-                            [{text: '10', callback_data: 'Жовтень'},
-                            {text: '11', callback_data: 'Листопад'},
-                            {text: '12', callback_data: 'Грудень'}],
+                            [{text: 'Жовтень', callback_data: 'Жовтень'},
+                            {text: 'Листопад', callback_data: 'Листопад'},
+                            {text: 'Грудень', callback_data: 'Грудень'}],
                         ]
                     })
                 } 
 
-                bot.sendMessage(chatId, `➡️3.1. Зазначте дату події. Спочатку місяць`, options_months)
+                bot.sendMessage(chatId, `➡️ 3.1. Зазначте дату події. Спочатку місяць`, options_months)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                 console.log('end case from switch 1_1_begin_answered');
@@ -187,7 +196,7 @@ module.exports = function( global_vars_allusers )
                 console.log('case 3_1_month_answered: START from switch')
                     
                 global_vars_allusers[chatId].data_user_quiz['3. date'] = callback_data;
-                console.log(global_vars_allusers[chatId].data_user_quiz['3. date'])
+                console.log('data_user_quiz: ', global_vars_allusers[chatId].data_user_quiz)
 
                     //---------------------------------------------
                     /*фіктивно створюю ніби нажата кнопка, типу "підтвердити введення тексту міста/телефону"
@@ -247,7 +256,7 @@ module.exports = function( global_vars_allusers )
                     } 
                     
     
-                    bot.sendMessage(chatId, `➡️3.2. Тепер день`, options_days)
+                    bot.sendMessage(chatId, `➡️ 3.2. Тепер день`, options_days)
                     // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                     console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                     console.log('end case from switch 1_1_begin_answered');
@@ -264,14 +273,14 @@ module.exports = function( global_vars_allusers )
             case '31d':
             case '3_begin_answered':
                 console.log('case 3_begin_answered: START from switch')
-                global_vars_allusers[chatId].data_user_quiz['3. date'] = global_vars_allusers[chatId].data_user_quiz['3. date'] + ' ' + callback_data; //month + ' ' + days
-                console.log(global_vars_allusers[chatId].data_user_quiz['3. date'])
+                global_vars_allusers[chatId].data_user_quiz['3. date'] = global_vars_allusers[chatId].data_user_quiz['3. date'] + ', ' + callback_data.slice(0, -1); //month + ' ' + days
+                console.log('data_user_quiz: ', global_vars_allusers[chatId].data_user_quiz)
                 //---------------------------------------------
               
                 console.log('4_begin:');
                 global_vars_allusers[chatId].last_callback_pressed_button = '4_begin';
                 //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️4. Опишіть коротко подію. Одним повідомленням, без виправлень. Або напишіть нове (бо зараховано буде лиш останнє повідомлення)`)
+                bot.sendMessage(chatId, `➡️ 4. Опишіть коротко подію. Одним повідомленням, без виправлень. Або напишіть нове (бо зараховано буде лиш останнє повідомлення)`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                 console.log('end case from switch 3_begin_answered');
@@ -287,7 +296,7 @@ module.exports = function( global_vars_allusers )
                 global_vars_allusers[chatId].last_callback_pressed_button = '5_begin';
                 
                 //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️5. Вкажіть контактний телефон`)
+                bot.sendMessage(chatId, `➡️ 5. Вкажіть контактний телефон`)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                 console.log('end case from switch 4_begin_answered');
@@ -304,7 +313,7 @@ module.exports = function( global_vars_allusers )
                 
                 
                 //тут може бути багато повідомлень. Масив повідомлень
-                bot.sendMessage(chatId, `➡️6. Чи є свідки?`, begin_button_6)
+                bot.sendMessage(chatId, `➡️ 6. Чи є свідки?`, begin_button_6)
                 // console.log('last_inputed_text_from_user: ', last_inputed_text_from_user)
                 console.log('last_callback_pressed_button: ', global_vars_allusers[chatId].last_callback_pressed_button)
                 console.log('end case from switch 5_begin_answered');
@@ -340,7 +349,7 @@ module.exports = function( global_vars_allusers )
                 const csv_master = require('../js_tool/CVS_master') ( global_vars_allusers );
                 csv_master.save_data_toCSV(msg, chatId);
                 
-                bot.sendMessage(chatId, `➡️7. Тепер можете передати мені фото/відео
+                bot.sendMessage(chatId, `➡️ 7. Тепер можете передати мені фото/відео
                 
                 Дочекайтесь, будь ласка, поки всі фото/відео, відео не будуть передані повністю, перед натисненням кнопки підтвердження.
                 
@@ -371,7 +380,7 @@ module.exports = function( global_vars_allusers )
                      * 
                      */
                     
-                    bot.sendMessage(chatId, `➡️8. Дані передано, дякуємо`)
+                    bot.sendMessage(chatId, `➡️ 8. Дані передано, дякуємо`)
 
                     
                 }else{
