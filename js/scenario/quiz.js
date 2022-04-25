@@ -365,6 +365,9 @@ module.exports = function( global_vars_allusers )
                     global_vars_allusers[chatId].last_inputed_text_from_user == 'finish'
                     || global_vars_allusers[chatId].last_inputed_text_from_user == 'Finish'
                     || global_vars_allusers[chatId].last_inputed_text_from_user == '🏁'
+                    || global_vars_allusers[chatId].last_inputed_text_from_user == '/finish'
+                    || global_vars_allusers[chatId].last_inputed_text_from_user == '/Finish'
+                    || global_vars_allusers[chatId].last_inputed_text_from_user == '/🏁'
                  ){
                     global_vars_allusers[chatId].data_user_quiz['7. load files'] = 'yes';
                     console.log('data_user_quiz: ', global_vars_allusers[chatId].data_user_quiz)
