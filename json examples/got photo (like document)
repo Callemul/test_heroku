@@ -1,0 +1,33 @@
+{
+  message_id: 1282,
+  from: {
+    id: 496323983,
+    is_bot: false,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    language_code: 'ru'
+  },
+  chat: {
+    id: 496323983,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    type: 'private'
+  },
+  date: 1650980040,
+  document: {
+    file_name: '2006_Ojiya_balloon_festival_011.jpg',
+    mime_type: 'image/jpeg',
+    thumb: {
+      file_id: 'AAMCAgADGQEAAgUCYmf0x5VcHxd_POAJSWTgtqnYhR0AArkXAAN4QEuf6rTE5-OJggEAB20AAyQE',
+      file_unique_id: 'AQADuRcAA3hAS3I',
+      file_size: 11522,
+      width: 213,
+      height: 320
+    },
+    file_id: 'BQACAgIAAxkBAAIFAmJn9MeVXB8XfzzgCUlk4Lap2IUdAAK5FwADeEBLn-q0xOfjiYIkBA',
+    file_unique_id: 'AgADuRcAA3hASw',
+    file_size: 1897694
+  }
+}

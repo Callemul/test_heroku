@@ -7,8 +7,11 @@ module.exports = {
      setCommands: function(bot) {
         bot.setMyCommands([
             {command: '/start', description: 'Запустити бота'},
-            //{command: '/send_to_developer', description: 'Написати розробнрику'},
+            {command: '/finish', description: 'Завершити роботу з ботом'},
+                //{command: '/send_to_developer', description: 'Написати розробнрику'},
         ]);
+
+
     },
 
  

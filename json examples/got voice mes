@@ -1,0 +1,26 @@
+{
+  message_id: 1318,
+  from: {
+    id: 496323983,
+    is_bot: false,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    language_code: 'ru'
+  },
+  chat: {
+    id: 496323983,
+    first_name: 'Олександр',
+    last_name: 'Іванов',
+    username: 'Ivanov_Sasha',
+    type: 'private'
+  },
+  date: 1650981269,
+  voice: {
+    duration: 2,
+    mime_type: 'audio/ogg',
+    file_id: 'AwACAgIAAxkBAAIFJmJn-ZUEgyQOCgTAe4FuLl_z10H_AALnFwADeEBLV0d1vnlzkRckBA',
+    file_unique_id: 'AgAD5xcAA3hASw',
+    file_size: 674
+  }
+}
